@@ -1,0 +1,351 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   JOBS AGENT — Custom Styles
+   Ops Console Aesthetic: Deep Charcoal + Amber/Cyan Accents
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+body {
+  background-color: #141318;
+  color: #EDEBF2;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(245, 166, 35, 0.3);
+  color: #EDEBF2;
+}
+
+/* ── View State Management ─────────────────────────────────────────────── */
+.view {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.view.active {
+  display: block;
+  opacity: 1;
+}
+
+.view.fade-out {
+  opacity: 0;
+}
+
+/* ── Navigation Links ──────────────────────────────────────────────────── */
+.nav-link {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #9A98A6;
+  transition: color 0.2s ease;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover {
+  color: #EDEBF2;
+}
+
+.nav-link.active {
+  color: #ffc880;
+  border-bottom-color: #ffc880;
+}
+
+/* ── Mobile Navigation ─────────────────────────────────────────────────── */
+.mobile-nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  color: #9A98A6;
+  transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.mobile-nav-btn:active {
+  transform: scale(0.95);
+}
+
+.mobile-nav-btn.active {
+  color: #ffc880;
+}
+
+.mobile-nav-btn:hover {
+  color: #ffc880;
+}
+
+/* ── Console Cursor (Blinking Block) ───────────────────────────────────── */
+.console-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background-color: #ffc880;
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ── Console Line ──────────────────────────────────────────────────────── */
+.console-line {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.console-line span:first-child {
+  color: #5bd5fc;
+  flex-shrink: 0;
+}
+
+.console-line.log-success span:nth-child(2) {
+  color: #5bd5fc;
+}
+
+.console-line.log-primary span:nth-child(2) {
+  color: #ffc880;
+}
+
+.console-line.log-highlight span:nth-child(2) {
+  color: #e5e1e8;
+  font-weight: 500;
+}
+
+.console-line.log-dim {
+  opacity: 0.5;
+}
+
+/* Console line entry animation */
+.console-line-enter {
+  animation: consoleFadeIn 0.4s ease forwards;
+}
+
+@keyframes consoleFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Status Dot Pulse ──────────────────────────────────────────────────── */
+.status-dot-pulse {
+  animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* ── Scanline Overlay ──────────────────────────────────────────────────── */
+.scanline {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 200, 128, 0.05);
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  animation: scanlineMove 8s linear infinite;
+  z-index: 2;
+}
+
+@keyframes scanlineMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+.console-scanline-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+}
+
+/* ── Job Card ──────────────────────────────────────────────────────────── */
+.job-card {
+  background-color: #1D1C22;
+  border: 1px solid #2A2933;
+  border-radius: 8px;
+  padding: 1.25rem;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+  cursor: pointer;
+}
+
+.job-card:hover {
+  border-color: #524534;
+  transform: translateY(-1px);
+}
+
+.job-card.not-a-match {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.job-card.not-a-match:hover {
+  transform: none;
+  border-color: #2A2933;
+}
+
+/* ── Fit Badge ─────────────────────────────────────────────────────────── */
+.badge-fit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: rgba(91, 213, 252, 0.15);
+  color: #5bd5fc;
+  border: 1px solid rgba(91, 213, 252, 0.25);
+}
+
+.badge-no-match {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: rgba(154, 152, 166, 0.1);
+  color: #9A98A6;
+  border: 1px solid rgba(154, 152, 166, 0.2);
+}
+
+.badge-new {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background-color: rgba(154, 152, 166, 0.15);
+  color: #9A98A6;
+}
+
+/* ── Drawer Transitions ────────────────────────────────────────────────── */
+.drawer-enter {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+.drawer-exit {
+  animation: slideOutRight 0.3s ease forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOutRight {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+/* ── Spinner ───────────────────────────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(69, 43, 0, 0.3);
+  border-top-color: #452b00;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── History Table Row ─────────────────────────────────────────────────── */
+.history-row {
+  border-bottom: 1px solid #2A2933;
+  transition: background-color 0.15s ease;
+}
+
+.history-row:hover {
+  background-color: rgba(43, 41, 47, 0.5);
+}
+
+.history-row:last-child {
+  border-bottom: none;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #141318;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #353439;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #524534;
+}
+
+/* ── Material Symbols Tweaks ───────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ── Utility: hidden transition helper ─────────────────────────────────── */
+.section-enter {
+  animation: fadeSlideUp 0.4s ease forwards;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Progress Indicator (for fetching button) ──────────────────────────── */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #452b00, transparent);
+  animation: btnProgress 1.5s ease infinite;
+}
+
+@keyframes btnProgress {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

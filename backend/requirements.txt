@@ -1,0 +1,32 @@
+# === Core Framework ===
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+
+# === Database ===
+sqlmodel==0.0.25
+alembic==1.16.2
+
+# === Configuration ===
+pydantic-settings==2.9.1
+python-dotenv==1.2.2
+
+# === AI / LLM ===
+groq==1.5.0
+
+# === PDF Processing ===
+pypdf==6.14.2
+reportlab==5.0.0
+
+# === Document Generation ===
+python-docx==1.2.0
+
+# === File Upload ===
+python-multipart==0.0.20
+
+# === HTTP Client (for Groq SDK) ===
+httpx==0.28.1
+
+# === Testing ===
+pytest==8.4.1
+pytest-asyncio==1.0.0
+httpx==0.28.1

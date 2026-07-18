@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JOBS AGENT - History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#ffb955",
+                    "on-secondary": "#003543",
+                    "tertiary": "#9bd9ff",
+                    "error": "#ffb4ab",
+                    "surface-container-low": "#1c1b20",
+                    "inverse-primary": "#835500",
+                    "secondary-fixed-dim": "#5bd5fc",
+                    "text-muted": "#9A98A6",
+                    "border": "#2A2933",
+                    "on-tertiary": "#00344a",
+                    "on-primary-container": "#644000",
+                    "outline-variant": "#524534",
+                    "surface-container-high": "#2b292f",
+                    "on-primary-fixed": "#291800",
+                    "primary-container": "#f5a623",
+                    "on-secondary-fixed-variant": "#004e61",
+                    "secondary-container": "#00a3c8",
+                    "surface-container-highest": "#353439",
+                    "background": "#141318",
+                    "surface-variant": "#353439",
+                    "on-primary": "#452b00",
+                    "on-surface-variant": "#d7c3ae",
+                    "outline": "#9f8e7a",
+                    "on-background": "#e5e1e8",
+                    "tertiary-container": "#3ac2ff",
+                    "secondary-fixed": "#b7eaff",
+                    "on-tertiary-container": "#004d6a",
+                    "surface-bright": "#3a383e",
+                    "surface": "#1D1C22",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0e0e12",
+                    "on-secondary-container": "#003341",
+                    "surface-dim": "#141318",
+                    "tertiary-fixed": "#c4e7ff",
+                    "error-container": "#93000a",
+                    "inverse-surface": "#e5e1e8",
+                    "tertiary-fixed-dim": "#7cd0ff",
+                    "primary-fixed": "#ffddb4",
+                    "on-tertiary-fixed": "#001e2c",
+                    "on-tertiary-fixed-variant": "#004c69",
+                    "on-error": "#690005",
+                    "primary": "#ffc880",
+                    "secondary": "#5bd5fc",
+                    "on-primary-fixed-variant": "#633f00",
+                    "on-surface": "#e5e1e8",
+                    "primary-fixed-dim": "#ffb955",
+                    "status-error": "#FF4B4B",
+                    "surface-container": "#201f24",
+                    "on-secondary-fixed": "#001f28",
+                    "text-primary": "#EDEBF2",
+                    "inverse-on-surface": "#313035"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "900px",
+                    "gutter": "1rem",
+                    "margin-mobile": "1.25rem",
+                    "stack-gap": "1.5rem"
+            },
+            "fontFamily": {
+                    "body-base": ["Inter"],
+                    "label-mono": ["JetBrains Mono"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "console-log": ["JetBrains Mono"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "console-log": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #141318;
+            color: #e5e1e8;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1D1C22;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2A2933;
+        }
+    </style>
+</head>
+<body class="font-body-base text-body-base selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="bg-background dark:bg-background border-b border-border w-full top-0 z-40 sticky">
+<div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">
+                JOBS AGENT
+            </div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-text-muted hover:text-text-primary transition-colors font-body-base text-body-base" href="#">Dashboard</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-body-base text-body-base" href="#">History</a>
+<a class="text-text-muted hover:text-text-primary transition-colors font-body-base text-body-base" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="active:opacity-80 transition-colors text-primary">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-gutter py-12 mb-24 md:mb-12">
+<!-- Screen Title Section -->
+<div class="mb-8 flex items-end justify-between">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-background mb-2">History</h1>
+<p class="text-text-muted font-body-sm">Audit log of agent activities and fetch results.</p>
+</div>
+<div class="hidden md:block">
+<div class="bg-surface border border-border px-3 py-1.5 flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-mono text-label-mono text-secondary uppercase tracking-wider">Agent Idle</span>
+</div>
+</div>
+</div>
+<!-- History Table Container -->
+<div class="bg-surface border border-border overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-border bg-surface-container-low">
+<th class="px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-widest">Date</th>
+<th class="px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-widest">Filters</th>
+<th class="px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-widest text-right">Fetched</th>
+<th class="px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-widest text-right">Matched</th>
+<th class="px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-widest text-center">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.24 14:30</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Remote · past week · Senior</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">142</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-secondary text-right font-bold">12</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="done">done</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.23 09:15</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Hybrid · New York · Finance</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">89</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-secondary text-right font-bold">4</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="done">done</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.22 18:45</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Contract · Frontend · React</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">210</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-secondary text-right font-bold">31</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="done">done</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default opacity-60">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.21 11:20</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Worldwide · Design · Figma</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">45</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-muted text-right">--</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-text-muted text-[20px]" data-icon="incomplete">commute</span>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.20 16:00</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Remote · Backend · Python</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">167</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-secondary text-right font-bold">18</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="done">done</span>
+</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.19 13:12</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Full-time · ML Engineer</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">54</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-secondary text-right font-bold">2</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="done">done</span>
+</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.18 10:05</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Remote · Tech Lead · Go</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">302</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-secondary text-right font-bold">44</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="done">done</span>
+</td>
+</tr>
+<!-- Row 8 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.17 14:22</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Hybrid · London · Product</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">76</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-secondary text-right font-bold">5</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="done">done</span>
+</td>
+</tr>
+<!-- Row 9 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.16 08:30</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Remote · DevOps · AWS</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">128</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-secondary text-right font-bold">15</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="done">done</span>
+</td>
+</tr>
+<!-- Row 10 -->
+<tr class="hover:bg-surface-container-high transition-colors group cursor-default">
+<td class="px-6 py-4 font-label-mono text-label-mono text-text-primary whitespace-nowrap">2023.10.15 15:45</td>
+<td class="px-6 py-4 font-body-sm text-on-surface">Contract · Security · Auditor</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-on-surface text-right">22</td>
+<td class="px-6 py-4 font-label-mono text-label-mono text-secondary text-right font-bold">1</td>
+<td class="px-6 py-4 text-center">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="done">done</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer of List -->
+<div class="px-6 py-4 border-t border-border flex items-center justify-between bg-surface-container-low">
+<span class="font-label-mono text-label-mono text-text-muted">Showing last 10 operations</span>
+<button class="text-primary hover:underline font-label-mono text-label-mono uppercase tracking-wider">Export CSV</button>
+</div>
+</div>
+<!-- Terminal Style Footer Log -->
+<div class="mt-12">
+<div class="bg-surface-container-lowest border border-border p-4 font-console-log text-console-log relative">
+<div class="flex items-center gap-3 mb-3 border-b border-border pb-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="text-text-muted uppercase tracking-tighter opacity-70">agent · system_logs</span>
+</div>
+<div class="space-y-1">
+<p><span class="text-secondary">$</span> Loading fetch history from secure enclave...</p>
+<p><span class="text-secondary">$</span> Integrity check: <span class="text-on-secondary-container bg-secondary px-1">PASSED</span></p>
+<p><span class="text-secondary">$</span> Historical data rendering complete. 10 entities mapped.</p>
+<p><span class="text-secondary">$</span> <span class="inline-block w-2 h-4 bg-secondary ml-1 animate-pulse align-middle"></span></p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-20 px-4 bg-surface-container border-t border-border">
+<div class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
+<span class="font-label-mono text-label-mono mt-1">Start Fetching</span>
+</div>
+<div class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="stop">stop</span>
+<span class="font-label-mono text-label-mono mt-1">Stop</span>
+</div>
+<div class="bg-primary text-on-primary rounded-xl px-4 py-2 flex flex-col items-center justify-center transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+<span class="font-label-mono text-label-mono mt-1">Refresh</span>
+</div>
+<div class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="ios_share">ios_share</span>
+<span class="font-label-mono text-label-mono mt-1">Export</span>
+</div>
+</nav>
+<script>
+        // Simple micro-interaction for rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', () => {
+                row.classList.add('bg-surface-container-highest');
+                setTimeout(() => {
+                    row.classList.remove('bg-surface-container-highest');
+                }, 200);
+            });
+        });
+    </script>
+</body></html>

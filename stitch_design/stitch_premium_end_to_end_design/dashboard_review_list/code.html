@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Jobs Agent - Results & CV Upload</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        .console-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: #5bd5fc;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(29, 28, 34, 0.1) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#ffb955",
+                        "on-secondary": "#003543",
+                        "tertiary": "#9bd9ff",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1c1b20",
+                        "inverse-primary": "#835500",
+                        "secondary-fixed-dim": "#5bd5fc",
+                        "text-muted": "#9A98A6",
+                        "border": "#2A2933",
+                        "on-tertiary": "#00344a",
+                        "on-primary-container": "#644000",
+                        "outline-variant": "#524534",
+                        "surface-container-high": "#2b292f",
+                        "on-primary-fixed": "#291800",
+                        "primary-container": "#f5a623",
+                        "on-secondary-fixed-variant": "#004e61",
+                        "secondary-container": "#00a3c8",
+                        "surface-container-highest": "#353439",
+                        "background": "#141318",
+                        "surface-variant": "#353439",
+                        "on-primary": "#452b00",
+                        "on-surface-variant": "#d7c3ae",
+                        "outline": "#9f8e7a",
+                        "on-background": "#e5e1e8",
+                        "tertiary-container": "#3ac2ff",
+                        "secondary-fixed": "#b7eaff",
+                        "on-tertiary-container": "#004d6a",
+                        "surface-bright": "#3a383e",
+                        "surface": "#1D1C22",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#0e0e12",
+                        "on-secondary-container": "#003341",
+                        "surface-dim": "#141318",
+                        "tertiary-fixed": "#c4e7ff",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e5e1e8",
+                        "tertiary-fixed-dim": "#7cd0ff",
+                        "primary-fixed": "#ffddb4",
+                        "on-tertiary-fixed": "#001e2c",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "on-error": "#690005",
+                        "primary": "#ffc880",
+                        "secondary": "#5bd5fc",
+                        "on-primary-fixed-variant": "#633f00",
+                        "on-surface": "#e5e1e8",
+                        "primary-fixed-dim": "#ffb955",
+                        "status-error": "#FF4B4B",
+                        "surface-container": "#201f24",
+                        "on-secondary-fixed": "#001f28",
+                        "text-primary": "#EDEBF2",
+                        "inverse-on-surface": "#313035"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "900px",
+                        "gutter": "1rem",
+                        "margin-mobile": "1.25rem",
+                        "stack-gap": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "body-base": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "console-log": ["JetBrains Mono"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "console-log": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-base min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="w-full top-0 border-b border-border bg-background z-50 sticky">
+<div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">JOBS AGENT</div>
+<div class="hidden md:flex items-center gap-8 font-body-base text-body-base">
+<a class="text-primary border-b-2 border-primary pb-1 transition-colors" href="#">Dashboard</a>
+<a class="text-text-muted hover:text-text-primary transition-colors" href="#">History</a>
+<a class="text-text-muted hover:text-text-primary transition-colors" href="#">Settings</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary text-2xl active:opacity-80">account_circle</button>
+</div>
+</div>
+</nav>
+<main class="flex-grow max-w-container-max mx-auto w-full px-gutter py-8 space-y-8">
+<!-- Signature Element: The Live Console -->
+<section class="bg-surface border border-border relative overflow-hidden">
+<div class="scanline absolute inset-0 opacity-5"></div>
+<div class="px-4 py-2 border-b border-border flex justify-between items-center bg-surface-container-lowest">
+<div class="flex items-center gap-3">
+<span class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_#5bd5fc]"></span>
+<span class="font-label-mono text-label-mono text-secondary uppercase tracking-widest">agent · ready for cv</span>
+</div>
+<span class="font-label-mono text-label-mono text-text-muted">SYSTEM_READY</span>
+</div>
+<div class="p-6 font-console-log text-console-log bg-surface-container-lowest">
+<div class="flex items-start gap-3">
+<span class="text-secondary">$</span>
+<p class="text-on-surface">Done. 20 jobs saved, waiting for CV upload.<span class="console-cursor"></span></p>
+</div>
+</div>
+</section>
+<!-- CV Upload Card (Task-Focused Section) -->
+<section class="bg-surface border border-border p-6 space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 flex items-center justify-center border border-border font-headline-md text-primary bg-surface-container">2</div>
+<h2 class="font-headline-md text-headline-md text-text-primary">Upload your CV</h2>
+</div>
+<div class="border-2 border-dashed border-border bg-surface-container-low hover:border-secondary transition-colors group cursor-pointer p-12 flex flex-col items-center justify-center gap-4 text-center">
+<span class="material-symbols-outlined text-4xl text-text-muted group-hover:text-secondary transition-colors">upload_file</span>
+<div>
+<p class="text-text-primary font-body-base">Drop your PDF or DOCX here</p>
+<p class="text-text-muted text-body-sm mt-1">Maximum file size: 5MB</p>
+</div>
+</div>
+<div class="flex justify-end">
+<button class="px-8 py-3 bg-secondary/20 text-secondary border border-secondary/30 font-label-mono text-label-mono uppercase tracking-widest cursor-not-allowed opacity-50 flex items-center gap-2" disabled="">
+<span class="material-symbols-outlined">analytics</span>
+                    Analyze & generate
+                </button>
+</div>
+</section>
+<!-- Results: Fetched Roles -->
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-text-primary">Fetched roles</h2>
+<div class="flex items-center gap-2 text-text-muted font-label-mono text-label-mono">
+<span class="material-symbols-outlined text-sm">inventory_2</span>
+                    20 JOBS FOUND
+                </div>
+</div>
+<!-- 2-column Grid of Job Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Card 1 -->
+<div class="bg-surface border border-border p-5 hover:border-secondary transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-text-primary group-hover:text-secondary transition-colors">Senior Product Designer</h3>
+<p class="text-text-muted text-body-sm mt-0.5">Fintech Solutions • London (Remote)</p>
+</div>
+<span class="font-label-mono text-[10px] bg-surface-container-highest px-2 py-1 text-text-muted">NEW</span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-border">
+<span class="text-text-muted text-body-sm">Saved 2m ago</span>
+<a class="text-secondary text-body-sm flex items-center gap-1 hover:underline" href="#">
+                            View posting
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface border border-border p-5 hover:border-secondary transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-text-primary group-hover:text-secondary transition-colors">UX Designer, eCommerce</h3>
+<p class="text-text-muted text-body-sm mt-0.5">Global Retail Corp • New York, NY</p>
+</div>
+<span class="font-label-mono text-[10px] bg-surface-container-highest px-2 py-1 text-text-muted">NEW</span>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-border">
+<span class="text-text-muted text-body-sm">Saved 5m ago</span>
+<a class="text-secondary text-body-sm flex items-center gap-1 hover:underline" href="#">
+                            View posting
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface border border-border p-5 hover:border-secondary transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-text-primary group-hover:text-secondary transition-colors">Frontend Designer (Contract)</h3>
+<p class="text-text-muted text-body-sm mt-0.5">Studio Hyperlink • Berlin, DE</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-border">
+<span class="text-text-muted text-body-sm">Saved 12m ago</span>
+<a class="text-secondary text-body-sm flex items-center gap-1 hover:underline" href="#">
+                            View posting
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface border border-border p-5 hover:border-secondary transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-text-primary group-hover:text-secondary transition-colors">Lead Interface Specialist</h3>
+<p class="text-text-muted text-body-sm mt-0.5">Nebula Systems • Remote</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-border">
+<span class="text-text-muted text-body-sm">Saved 15m ago</span>
+<a class="text-secondary text-body-sm flex items-center gap-1 hover:underline" href="#">
+                            View posting
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface border border-border p-5 hover:border-secondary transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-text-primary group-hover:text-secondary transition-colors">Product Design Lead</h3>
+<p class="text-text-muted text-body-sm mt-0.5">SecureLayer • San Francisco, CA</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-border">
+<span class="text-text-muted text-body-sm">Saved 18m ago</span>
+<a class="text-secondary text-body-sm flex items-center gap-1 hover:underline" href="#">
+                            View posting
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="bg-surface border border-border p-5 hover:border-secondary transition-colors group">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-bold text-text-primary group-hover:text-secondary transition-colors">Visual Systems Designer</h3>
+<p class="text-text-muted text-body-sm mt-0.5">Arcade Labs • Austin, TX</p>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-border">
+<span class="text-text-muted text-body-sm">Saved 20m ago</span>
+<a class="text-secondary text-body-sm flex items-center gap-1 hover:underline" href="#">
+                            View posting
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+<div class="flex justify-center pt-4">
+<button class="text-text-muted font-label-mono text-label-mono flex items-center gap-2 hover:text-text-primary transition-colors py-2 px-4 border border-border">
+<span class="material-symbols-outlined text-sm">expand_more</span>
+                    LOAD REMAINING 14 ROLES
+                </button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-20 px-4 bg-surface-container border-t border-border">
+<button class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
+<span class="font-label-mono text-label-mono">Start Fetching</span>
+</button>
+<button class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="stop">stop</span>
+<span class="font-label-mono text-label-mono">Stop</span>
+</button>
+<button class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+<span class="font-label-mono text-label-mono">Refresh</span>
+</button>
+<button class="bg-primary text-on-primary rounded-xl px-4 py-2 flex flex-col items-center justify-center active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="ios_share">ios_share</span>
+<span class="font-label-mono text-label-mono">Export</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions for CV Dropzone
+        const dropzone = document.querySelector('.border-dashed');
+        if (dropzone) {
+            dropzone.addEventListener('mouseenter', () => {
+                dropzone.style.backgroundColor = 'rgba(91, 213, 252, 0.05)';
+            });
+            dropzone.addEventListener('mouseleave', () => {
+                dropzone.style.backgroundColor = '';
+            });
+            dropzone.addEventListener('click', () => {
+                // Placeholder for file selection logic
+                console.log('Opening file selector...');
+            });
+        }
+    </script>
+</body></html>

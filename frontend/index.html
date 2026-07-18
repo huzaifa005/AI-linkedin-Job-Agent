@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>JOBS AGENT | Autonomous Job Search Pipeline</title>
+  <meta name="description" content="AI-powered autonomous job search agent that scrapes LinkedIn, evaluates job fit against your CV, and generates tailored resumes and cover letters." />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-tint": "#ffb955",
+            "on-secondary": "#003543",
+            "tertiary": "#9bd9ff",
+            "error": "#ffb4ab",
+            "surface-container-low": "#1c1b20",
+            "inverse-primary": "#835500",
+            "secondary-fixed-dim": "#5bd5fc",
+            "text-muted": "#9A98A6",
+            "border": "#2A2933",
+            "on-tertiary": "#00344a",
+            "on-primary-container": "#644000",
+            "outline-variant": "#524534",
+            "surface-container-high": "#2b292f",
+            "on-primary-fixed": "#291800",
+            "primary-container": "#f5a623",
+            "on-secondary-fixed-variant": "#004e61",
+            "secondary-container": "#00a3c8",
+            "surface-container-highest": "#353439",
+            "background": "#141318",
+            "surface-variant": "#353439",
+            "on-primary": "#452b00",
+            "on-surface-variant": "#d7c3ae",
+            "outline": "#9f8e7a",
+            "on-background": "#e5e1e8",
+            "tertiary-container": "#3ac2ff",
+            "secondary-fixed": "#b7eaff",
+            "on-tertiary-container": "#004d6a",
+            "surface-bright": "#3a383e",
+            "surface": "#1D1C22",
+            "on-error-container": "#ffdad6",
+            "surface-container-lowest": "#0e0e12",
+            "on-secondary-container": "#003341",
+            "surface-dim": "#141318",
+            "tertiary-fixed": "#c4e7ff",
+            "error-container": "#93000a",
+            "inverse-surface": "#e5e1e8",
+            "tertiary-fixed-dim": "#7cd0ff",
+            "primary-fixed": "#ffddb4",
+            "on-tertiary-fixed": "#001e2c",
+            "on-tertiary-fixed-variant": "#004c69",
+            "on-error": "#690005",
+            "primary": "#ffc880",
+            "secondary": "#5bd5fc",
+            "on-primary-fixed-variant": "#633f00",
+            "on-surface": "#e5e1e8",
+            "primary-fixed-dim": "#ffb955",
+            "status-error": "#FF4B4B",
+            "surface-container": "#201f24",
+            "on-secondary-fixed": "#001f28",
+            "text-primary": "#EDEBF2",
+            "inverse-on-surface": "#313035"
+          },
+          borderRadius: {
+            DEFAULT: "6px",
+            lg: "8px",
+            xl: "10px",
+            full: "9999px"
+          },
+          spacing: {
+            "container-max": "960px",
+            gutter: "1.5rem",
+            "margin-mobile": "1.25rem",
+            "stack-gap": "1.5rem"
+          },
+          fontFamily: {
+            "body-base": ["Inter", "system-ui", "sans-serif"],
+            "label-mono": ["JetBrains Mono", "monospace"],
+            "headline-lg": ["Inter", "system-ui", "sans-serif"],
+            "headline-md": ["Inter", "system-ui", "sans-serif"],
+            "console-log": ["JetBrains Mono", "monospace"],
+            "body-sm": ["Inter", "system-ui", "sans-serif"]
+          },
+          fontSize: {
+            "body-base": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+            "label-mono": ["12px", { lineHeight: "1.2", fontWeight: "400" }],
+            "headline-lg": ["32px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "600" }],
+            "headline-md": ["24px", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "console-log": ["13px", { lineHeight: "1.6", fontWeight: "400" }],
+            "body-sm": ["14px", { lineHeight: "1.4", fontWeight: "400" }]
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body class="min-h-screen font-body-base antialiased overflow-x-hidden">
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- TOP NAVBAR — Persistent across all views                          -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <header class="w-full top-0 border-b border-border bg-background z-50 sticky">
+    <div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+      <a href="#" id="nav-logo" class="font-headline-md text-headline-md font-bold text-primary tracking-tighter hover:opacity-90 transition-opacity">
+        JOBS AGENT
+      </a>
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="#" class="nav-link active" data-view="dashboard">Dashboard</a>
+        <a href="#" class="nav-link" data-view="history">History</a>
+        <a href="#" class="nav-link" data-view="settings">Settings</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">account_circle</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- VIEW: LANDING HERO                                                -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <main id="view-landing" class="view active">
+    <div class="max-w-container-max mx-auto px-gutter py-24 md:py-32">
+      <!-- Header -->
+      <div class="flex flex-col gap-6 mb-16">
+        <div class="flex items-center gap-2">
+          <span class="font-label-mono text-label-mono text-secondary tracking-widest uppercase">JOBS AGENT · TWO-STAGE PIPELINE</span>
+        </div>
+        <h1 class="flex flex-col gap-2">
+          <span class="font-headline-lg text-headline-lg md:text-[48px] md:leading-tight text-on-surface">It browses.</span>
+          <span class="font-headline-lg text-headline-lg md:text-[48px] md:leading-tight text-on-surface">It reads your resume.</span>
+          <span class="font-headline-lg text-headline-lg md:text-[48px] md:leading-tight text-primary">You just approve and apply.</span>
+        </h1>
+        <div class="flex flex-wrap gap-4 mt-4">
+          <button id="btn-open-agent" class="bg-primary text-on-primary px-8 py-3 rounded-DEFAULT font-semibold hover:opacity-90 active:scale-95 transition-all">
+            Open the agent
+          </button>
+          <a href="https://github.com" target="_blank" class="border border-border text-text-primary px-8 py-3 rounded-DEFAULT font-semibold hover:bg-surface-container-high active:scale-95 transition-all flex items-center gap-2">
+            View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <!-- Signature Console (Decorative) -->
+      <div class="bg-surface-container-lowest border border-border relative overflow-hidden mb-16 rounded-lg">
+        <div class="scanline"></div>
+        <div class="flex items-center justify-between px-4 py-2 border-b border-border bg-surface-container">
+          <div class="flex items-center gap-3">
+            <div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+            <span class="font-label-mono text-label-mono text-text-muted">agent · fetching</span>
+          </div>
+          <div class="font-label-mono text-label-mono text-text-muted">v1.0.0-stable</div>
+        </div>
+        <div id="landing-console" class="p-6 font-console-log text-console-log space-y-2 min-h-[200px]">
+          <div class="text-secondary opacity-80">$ Initializing search parameters for 'Senior Product Designer'...</div>
+          <div class="text-on-surface opacity-90">$ Scanning LinkedIn for remote opportunities...</div>
+          <div class="text-on-surface opacity-90">$ 42 potential matches identified. Filtering by proximity...</div>
+          <div class="text-secondary opacity-80">$ Stage 1 Complete. 12 high-fit leads stored in local pipeline.</div>
+          <div class="text-primary opacity-90">$ Starting Stage 2: Cross-referencing resume.pdf with Job ID 29310...</div>
+          <div class="flex items-center text-on-surface">
+            <span>$ Analysis in progress</span>
+            <span class="console-cursor"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Strip -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border rounded-lg overflow-hidden">
+        <div class="bg-surface p-8 flex flex-col gap-4">
+          <div class="flex items-center gap-2 text-secondary">
+            <span class="material-symbols-outlined">radar</span>
+            <h3 class="font-label-mono text-label-mono font-bold uppercase tracking-wider">Stage 1: Fetch</h3>
+          </div>
+          <ul class="space-y-3 font-body-sm text-body-sm text-text-muted">
+            <li class="flex items-start gap-3">
+              <span class="text-secondary mt-1">/</span>
+              <span>Autonomous crawling across LinkedIn using Browser Use headless agent.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-secondary mt-1">/</span>
+              <span>Headless browser technology ensures data integrity and real-time scraping.</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-surface p-8 flex flex-col gap-4">
+          <div class="flex items-center gap-2 text-primary">
+            <span class="material-symbols-outlined">hourglass_empty</span>
+            <h3 class="font-label-mono text-label-mono font-bold uppercase tracking-wider">Stage 2: Analyze</h3>
+          </div>
+          <ul class="space-y-3 font-body-sm text-body-sm text-text-muted">
+            <li class="flex items-start gap-3">
+              <span class="text-primary mt-1">/</span>
+              <span>Semantic matching engine compares your experience against job requirements.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-primary mt-1">/</span>
+              <span>Confidence scoring and tailored CV + cover letter generation via Groq LLM.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Footer Stats -->
+      <div class="mt-24 border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="flex gap-8">
+          <div class="flex flex-col gap-1">
+            <span class="font-label-mono text-[10px] text-text-muted uppercase tracking-tighter">System Load</span>
+            <span class="font-label-mono text-body-sm text-on-surface">12.4% OPS</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-label-mono text-[10px] text-text-muted uppercase tracking-tighter">Jobs Processed</span>
+            <span id="stat-jobs-processed" class="font-label-mono text-body-sm text-on-surface">0 TOTAL</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-label-mono text-[10px] text-text-muted uppercase tracking-tighter">Identity</span>
+            <span class="font-label-mono text-body-sm text-secondary">ACTIVE</span>
+          </div>
+        </div>
+        <div class="text-text-muted font-label-mono text-[10px] uppercase tracking-widest">
+          Built for High-Performance Job Acquisition © 2026
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- VIEW: DASHBOARD                                                   -->
+  <!-- All dashboard states render here, controlled by JS state machine  -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <main id="view-dashboard" class="view">
+    <div class="max-w-container-max mx-auto px-gutter pt-8 pb-32">
+
+      <!-- ── SECTION: Search Form ──────────────────────────────────── -->
+      <section id="search-section" class="mb-10">
+        <div class="bg-surface border border-border p-6 rounded-lg">
+          <div class="flex items-center gap-2 mb-6 text-primary">
+            <span class="font-label-mono text-label-mono uppercase tracking-widest bg-primary-container/20 px-2 py-0.5 rounded">1 · Set your search</span>
+          </div>
+          <div class="grid grid-cols-1 gap-4 items-end md:grid-cols-5">
+            <div class="flex flex-col gap-2">
+              <label class="font-label-mono text-label-mono text-text-muted">Target Role</label>
+              <input id="input-role" class="bg-surface-container-lowest border border-border text-text-primary px-3 py-2.5 rounded-DEFAULT font-body-base focus:outline-none focus:border-primary placeholder:text-text-muted/50 transition-colors" type="text" placeholder="e.g. Senior Product Designer" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="font-label-mono text-label-mono text-text-muted">Work Type</label>
+              <select id="input-work-type" class="bg-surface-container-lowest border border-border text-text-primary px-3 py-2.5 rounded-DEFAULT focus:outline-none focus:border-primary appearance-none transition-colors">
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="onsite">On-site</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="font-label-mono text-label-mono text-text-muted">Date Posted</label>
+              <select id="input-date-posted" class="bg-surface-container-lowest border border-border text-text-primary px-3 py-2.5 rounded-DEFAULT focus:outline-none focus:border-primary appearance-none transition-colors">
+                <option value="24h">Past 24 hours</option>
+                <option value="week">Past week</option>
+                <option value="month">Past month</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="font-label-mono text-label-mono text-text-muted">Max Fetch</label>
+              <input id="input-max-fetch" class="bg-surface-container-lowest border border-border text-text-primary px-3 py-2.5 rounded-DEFAULT font-label-mono focus:outline-none focus:border-primary transition-colors" type="number" value="25" min="1" max="100" />
+            </div>
+            <div>
+              <button id="btn-start-fetch" class="w-full bg-primary text-on-primary font-bold px-6 py-2.5 rounded-DEFAULT hover:opacity-90 transition-all flex items-center justify-center gap-2 active:scale-[0.98]">
+                <span class="material-symbols-outlined text-[20px]">play_arrow</span>
+                Start fetching
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SECTION: Live Console ─────────────────────────────────── -->
+      <section id="console-section" class="mb-10">
+        <div class="bg-surface-container-lowest border border-border rounded-lg overflow-hidden relative">
+          <!-- Console Header -->
+          <div class="bg-surface-container border-b border-border px-4 py-2 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div id="console-status-dot" class="w-2 h-2 rounded-full bg-text-muted status-dot-pulse"></div>
+              <span id="console-status-text" class="font-label-mono text-label-mono text-text-muted uppercase tracking-tight">agent · standing by</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="console-session-id" class="font-label-mono text-label-mono text-text-muted hidden"></span>
+              <div class="flex gap-1.5">
+                <div class="w-2.5 h-2.5 rounded-full bg-border"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-border"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-border"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Console Body -->
+          <div id="console-body" class="p-6 min-h-[180px] max-h-[320px] overflow-y-auto font-console-log text-console-log text-text-muted">
+            <div class="console-line">
+              <span class="text-secondary">$</span>
+              <span>Waiting for instructions…</span>
+              <span class="console-cursor"></span>
+            </div>
+          </div>
+          <!-- Scanline Overlay -->
+          <div class="console-scanline-overlay"></div>
+        </div>
+      </section>
+
+      <!-- ── SECTION: CV Upload (shown after fetching completes) ───── -->
+      <section id="cv-upload-section" class="mb-10 hidden">
+        <div class="bg-surface border border-border p-6 rounded-lg">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-label-mono text-label-mono uppercase tracking-widest bg-primary-container/20 px-2 py-0.5 rounded text-primary">2</span>
+            <h2 class="font-headline-md text-headline-md text-on-surface">Upload your CV</h2>
+          </div>
+          <div id="cv-dropzone" class="border-2 border-dashed border-border rounded-lg p-12 flex flex-col items-center justify-center cursor-pointer hover:border-primary/50 transition-colors">
+            <span class="material-symbols-outlined text-[48px] text-text-muted mb-4">upload_file</span>
+            <p class="text-on-surface font-body-base mb-1">Drop your PDF or DOCX here</p>
+            <p class="text-text-muted font-body-sm">Maximum file size: 10MB</p>
+            <input id="cv-file-input" type="file" accept=".pdf,.docx" class="hidden" />
+          </div>
+          <div id="cv-file-info" class="hidden mt-4 flex items-center gap-4 bg-surface-container p-4 rounded-lg border border-border">
+            <span class="material-symbols-outlined text-[32px] text-text-muted">description</span>
+            <div class="flex-1">
+              <p id="cv-filename" class="text-on-surface font-body-base font-medium"></p>
+              <p id="cv-filesize" class="text-text-muted font-label-mono text-label-mono"></p>
+            </div>
+            <button id="btn-remove-cv" class="text-text-muted hover:text-status-error transition-colors">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <div class="flex justify-end mt-6">
+            <button id="btn-analyze" class="bg-primary text-on-primary font-bold px-8 py-3 rounded-DEFAULT hover:opacity-90 transition-all flex items-center gap-2 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+              <span class="material-symbols-outlined text-[20px]">analytics</span>
+              ANALYZE & GENERATE
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SECTION: Fetched Roles List ───────────────────────────── -->
+      <section id="fetched-roles-section" class="mb-10 hidden">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="font-headline-md text-headline-md text-on-surface">Fetched roles</h2>
+          <div class="flex items-center gap-2 text-text-muted">
+            <span class="material-symbols-outlined text-[18px]">work</span>
+            <span id="fetched-count" class="font-label-mono text-label-mono uppercase tracking-wider">0 JOBS FOUND</span>
+          </div>
+        </div>
+        <div id="fetched-jobs-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Job cards inserted by JS -->
+        </div>
+        <div id="load-more-container" class="flex justify-center mt-6 hidden">
+          <button id="btn-load-more" class="border border-border text-text-muted px-6 py-2 rounded-DEFAULT font-label-mono text-label-mono uppercase tracking-wider hover:text-text-primary hover:border-primary/50 transition-colors">
+            <span class="material-symbols-outlined text-[16px] align-middle mr-1">expand_more</span>
+            LOAD REMAINING <span id="remaining-count">0</span> ROLES
+          </button>
+        </div>
+      </section>
+
+      <!-- ── SECTION: Analysis Results ─────────────────────────────── -->
+      <section id="results-section" class="mb-10 hidden">
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="font-headline-md text-headline-md text-on-surface">Matched roles (<span id="matched-count">0</span>)</h2>
+        </div>
+        <p class="text-text-muted font-body-sm mb-6"><span id="total-matched">0</span> matched, <span id="total-filtered">0</span> filtered out as not a fit.</p>
+
+        <div id="matched-jobs-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+          <!-- Matched job cards inserted by JS -->
+        </div>
+
+        <!-- Filtered Out Section -->
+        <div id="filtered-section" class="hidden">
+          <h3 class="font-label-mono text-label-mono text-text-muted uppercase tracking-wider mb-4">FILTERED OUT (<span id="filtered-count">0</span>)</h3>
+          <div id="filtered-jobs-list" class="space-y-3">
+            <!-- Filtered job rows inserted by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ── SECTION: Empty State ──────────────────────────────────── -->
+      <section id="empty-state" class="">
+        <div class="flex flex-col items-center justify-center py-20 text-center opacity-40">
+          <span class="material-symbols-outlined text-[64px] mb-4 text-border">search_off</span>
+          <p class="font-label-mono text-label-mono uppercase tracking-widest text-text-muted">No jobs in pipeline</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- VIEW: HISTORY                                                     -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <main id="view-history" class="view">
+    <div class="max-w-container-max mx-auto px-gutter pt-8 pb-32">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">History</h1>
+          <p class="text-text-muted font-body-sm">Audit log of agent activities and fetch results.</p>
+        </div>
+        <div class="flex items-center gap-2 border border-border rounded-DEFAULT px-3 py-1.5">
+          <div class="w-2 h-2 rounded-full bg-secondary"></div>
+          <span class="font-label-mono text-label-mono text-on-surface uppercase">AGENT IDLE</span>
+        </div>
+      </div>
+
+      <!-- History Table -->
+      <div class="bg-surface border border-border rounded-lg overflow-hidden mb-8">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-border">
+              <th class="text-left px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-wider">Date</th>
+              <th class="text-left px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-wider">Filters</th>
+              <th class="text-center px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-wider">Fetched</th>
+              <th class="text-center px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-wider">Matched</th>
+              <th class="text-center px-6 py-4 font-label-mono text-label-mono text-text-muted uppercase tracking-wider">Status</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-body">
+            <!-- History rows inserted by JS -->
+          </tbody>
+        </table>
+        <div class="border-t border-border px-6 py-3 flex items-center justify-between">
+          <span id="history-summary" class="font-label-mono text-label-mono text-text-muted">No operations recorded yet</span>
+          <button id="btn-export-csv" class="font-label-mono text-label-mono text-secondary hover:opacity-80 transition-opacity uppercase tracking-wider">EXPORT CSV</button>
+        </div>
+      </div>
+
+      <!-- History Console -->
+      <div class="bg-surface-container-lowest border border-border rounded-lg overflow-hidden relative">
+        <div class="bg-surface-container border-b border-border px-4 py-2 flex items-center gap-3">
+          <div class="w-2 h-2 rounded-full bg-secondary"></div>
+          <span class="font-label-mono text-label-mono text-text-muted uppercase tracking-tight">AGENT · SYSTEM_LOGS</span>
+        </div>
+        <div class="p-6 font-console-log text-console-log text-text-muted space-y-1">
+          <div><span class="text-secondary">$</span> Loading fetch history from local storage...</div>
+          <div><span class="text-secondary">$</span> Integrity check: <span class="bg-secondary/20 text-secondary px-1.5 py-0.5 rounded font-medium">PASSED</span></div>
+          <div><span class="text-secondary">$</span> Historical data rendering complete.</div>
+          <div class="flex items-center gap-1"><span class="text-secondary">$</span> <span class="console-cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- VIEW: SETTINGS                                                    -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <main id="view-settings" class="view">
+    <div class="max-w-container-max mx-auto px-gutter pt-8 pb-32">
+      <!-- Settings Console -->
+      <div class="bg-surface-container-lowest border border-border rounded-lg overflow-hidden relative mb-8">
+        <div class="bg-surface-container border-b border-border px-4 py-2 flex items-center gap-3">
+          <div class="w-2 h-2 rounded-full bg-secondary"></div>
+          <span class="font-label-mono text-label-mono text-secondary uppercase tracking-tight">system · settings_module</span>
+        </div>
+        <div class="p-6 font-console-log text-console-log text-text-muted space-y-1">
+          <div><span class="text-secondary">$</span> agent --status-check "configuration_active"</div>
+          <div><span class="text-secondary">$</span> Loading local preference manifest... <span class="text-on-surface font-medium">DONE</span></div>
+          <div><span class="text-secondary">$</span> User identity authenticated: agent_alpha_01<span class="console-cursor"></span></div>
+        </div>
+      </div>
+
+      <!-- Session Manager -->
+      <div class="bg-surface border border-border rounded-lg p-6 mb-6">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-2">Session Manager</h2>
+        <p class="text-text-muted font-body-sm mb-6">Manage automation credentials and connection health.</p>
+        <div class="flex items-center justify-between bg-surface-container border border-border rounded-lg p-4">
+          <div class="flex items-center gap-4">
+            <span class="material-symbols-outlined text-secondary text-[28px]">link</span>
+            <div>
+              <p class="font-label-mono text-label-mono text-text-muted uppercase tracking-wider">LINKEDIN INTEGRATION</p>
+              <div class="flex items-center gap-2 mt-1">
+                <div class="w-2 h-2 rounded-full bg-secondary"></div>
+                <span class="text-on-surface font-body-base">Status: Connected</span>
+              </div>
+            </div>
+          </div>
+          <button class="border border-border text-text-primary px-4 py-2 rounded-DEFAULT font-body-sm hover:bg-surface-container-high transition-colors">Reconnect</button>
+        </div>
+      </div>
+
+      <!-- Resource Quota -->
+      <div class="bg-surface border border-border rounded-lg p-6 mb-6">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-2">Resource Quota</h2>
+        <p class="text-text-muted font-body-sm mb-6">Operational limits to ensure organic browsing behavior.</p>
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-label-mono text-label-mono text-text-muted">Daily fetch capacity</span>
+            <span id="quota-display" class="font-label-mono text-label-mono text-primary">0 / 20 used</span>
+          </div>
+          <div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden">
+            <div id="quota-bar" class="h-full bg-primary rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+        <p class="text-text-muted font-body-sm">Resets at midnight (local time)</p>
+      </div>
+
+      <!-- Global Directives -->
+      <div class="bg-surface border border-border rounded-lg p-6 mb-6">
+        <h2 class="font-headline-md text-headline-md text-on-surface mb-2">Global Directives</h2>
+        <p class="text-text-muted font-body-sm mb-6">Default search parameters for all autonomous job fetches.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="flex flex-col gap-2">
+            <label class="font-label-mono text-label-mono text-text-muted uppercase tracking-wider">Work Type</label>
+            <select id="settings-work-type" class="bg-surface-container-lowest border border-border text-text-primary px-3 py-2.5 rounded-DEFAULT focus:outline-none focus:border-primary appearance-none transition-colors">
+              <option value="remote">Remote only</option>
+              <option value="hybrid">Hybrid</option>
+              <option value="onsite">On-site</option>
+              <option value="any">Any</option>
+            </select>
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="font-label-mono text-label-mono text-text-muted uppercase tracking-wider">Recency Threshold</label>
+            <select id="settings-recency" class="bg-surface-container-lowest border border-border text-text-primary px-3 py-2.5 rounded-DEFAULT focus:outline-none focus:border-primary appearance-none transition-colors">
+              <option value="24h">Last 24 hours</option>
+              <option value="week">Last week</option>
+              <option value="month">Last month</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex flex-col gap-2 mb-6">
+          <label class="font-label-mono text-label-mono text-text-muted uppercase tracking-wider">Default Batch Size</label>
+          <input id="settings-batch-size" class="bg-surface-container-lowest border border-border text-text-primary px-3 py-2.5 rounded-DEFAULT font-label-mono focus:outline-none focus:border-primary w-24 transition-colors" type="number" value="25" min="1" max="100" />
+        </div>
+        <div class="flex justify-end">
+          <button id="btn-save-settings" class="bg-primary text-on-primary font-bold px-8 py-3 rounded-DEFAULT hover:opacity-90 transition-all active:scale-[0.98]">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- MODAL: Job Detail Drawer                                          -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <div id="job-drawer" class="fixed inset-0 z-[100] hidden">
+    <!-- Backdrop -->
+    <div id="drawer-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <!-- Drawer Panel -->
+    <div id="drawer-panel" class="absolute right-0 top-0 h-full w-full max-w-lg bg-surface border-l border-border overflow-y-auto drawer-enter">
+      <div class="p-6">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <span id="drawer-fit-badge" class="font-label-mono text-label-mono text-on-secondary bg-secondary/20 border border-secondary/30 px-2 py-0.5 rounded uppercase tracking-wider">FIT</span>
+            <span id="drawer-agent-id" class="font-label-mono text-label-mono text-text-muted"></span>
+          </div>
+          <button id="btn-close-drawer" class="text-text-muted hover:text-text-primary transition-colors">
+            <span class="material-symbols-outlined text-[28px]">close</span>
+          </button>
+        </div>
+        <h2 id="drawer-title" class="font-headline-md text-headline-md text-on-surface mb-1"></h2>
+        <p id="drawer-company-location" class="text-text-muted font-body-base mb-6"></p>
+
+        <!-- Drawer Console -->
+        <div class="bg-surface-container-lowest border border-border rounded-lg overflow-hidden mb-6">
+          <div class="bg-surface-container border-b border-border px-4 py-2 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 rounded-full bg-secondary"></div>
+              <span class="font-label-mono text-label-mono text-secondary uppercase">AGENT · ANALYZING_FIT</span>
+            </div>
+            <span id="drawer-match-pct" class="font-label-mono text-label-mono text-text-muted">MATCH: --</span>
+          </div>
+          <div id="drawer-console-body" class="p-4 font-console-log text-console-log text-text-muted space-y-1">
+            <div><span class="text-secondary">$</span> Initializing document synthesis...</div>
+            <div><span class="text-secondary">$</span> Mapping skills to JD keywords...</div>
+            <div><span class="text-secondary">$</span> <span class="text-secondary">Optimization complete. Ready for export.</span><span class="console-cursor"></span></div>
+          </div>
+        </div>
+
+        <!-- Generated Assets -->
+        <h3 class="font-label-mono text-label-mono text-text-muted uppercase tracking-wider mb-4">GENERATED ASSETS</h3>
+
+        <div class="space-y-3 mb-6">
+          <!-- ATS Resume -->
+          <div class="bg-surface-container border border-border rounded-lg p-4 flex items-center gap-4">
+            <div class="flex-shrink-0">
+              <span class="material-symbols-outlined text-[32px] text-text-muted">description</span>
+              <div class="w-8 h-0.5 bg-primary rounded-full mt-1"></div>
+            </div>
+            <div class="flex-1">
+              <p class="text-on-surface font-body-base font-semibold">ATS RESUME</p>
+              <p class="text-text-muted font-label-mono text-label-mono">tailored_cv.pdf</p>
+            </div>
+            <button class="btn-download border border-primary text-primary px-4 py-2 rounded-DEFAULT font-label-mono text-label-mono uppercase tracking-wider hover:bg-primary/10 transition-colors" data-type="cv_pdf">
+              DOWNLOAD
+            </button>
+          </div>
+
+          <!-- Cover Letter -->
+          <div class="bg-surface-container border border-border rounded-lg p-4 flex items-center gap-4">
+            <div class="flex-shrink-0">
+              <span class="material-symbols-outlined text-[32px] text-text-muted">mail</span>
+              <div class="w-8 h-0.5 bg-secondary rounded-full mt-1"></div>
+            </div>
+            <div class="flex-1">
+              <p class="text-on-surface font-body-base font-semibold">COVER LETTER</p>
+              <p class="text-text-muted font-label-mono text-label-mono">cover_letter.pdf</p>
+            </div>
+            <button class="btn-download border border-primary text-primary px-4 py-2 rounded-DEFAULT font-label-mono text-label-mono uppercase tracking-wider hover:bg-primary/10 transition-colors" data-type="cl_pdf">
+              DOWNLOAD
+            </button>
+          </div>
+
+          <!-- Interview Prep -->
+          <div class="bg-surface-container border border-border rounded-lg p-4 flex items-center gap-4">
+            <div class="flex-shrink-0">
+              <span class="material-symbols-outlined text-[32px] text-text-muted">help_outline</span>
+              <div class="w-8 h-0.5 bg-tertiary rounded-full mt-1"></div>
+            </div>
+            <div class="flex-1">
+              <p class="text-on-surface font-body-base font-semibold">INTERVIEW PREP</p>
+              <p class="text-text-muted font-label-mono text-label-mono">interview_prep.pdf</p>
+            </div>
+            <button class="btn-download border border-primary text-primary px-4 py-2 rounded-DEFAULT font-label-mono text-label-mono uppercase tracking-wider hover:bg-primary/10 transition-colors" data-type="ip_pdf">
+              DOWNLOAD
+            </button>
+          </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="border-t border-border pt-4 space-y-3">
+          <a id="drawer-job-link" href="#" target="_blank" class="flex items-center justify-center gap-2 text-text-muted font-label-mono text-label-mono hover:text-secondary transition-colors">
+            View original posting <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+          </a>
+          <button id="btn-mark-applied" class="w-full bg-surface-container-high border border-border text-on-surface font-bold py-3 rounded-DEFAULT hover:bg-surface-bright transition-colors active:scale-[0.99]">
+            MARK AS APPLIED
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <!-- MOBILE BOTTOM NAV                                                 -->
+  <!-- ═══════════════════════════════════════════════════════════════════ -->
+  <nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-container border-t border-border flex justify-around items-center h-20 px-4">
+    <button class="mobile-nav-btn active" data-view="dashboard">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="font-label-mono text-[10px] mt-1">Dashboard</span>
+    </button>
+    <button class="mobile-nav-btn" data-view="history">
+      <span class="material-symbols-outlined">history</span>
+      <span class="font-label-mono text-[10px] mt-1">History</span>
+    </button>
+    <button class="mobile-nav-btn" data-view="settings">
+      <span class="material-symbols-outlined">settings</span>
+      <span class="font-label-mono text-[10px] mt-1">Settings</span>
+    </button>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/console.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

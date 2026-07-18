@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Jobs Agent - Live Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes pulse-amber {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+        .animate-pulse-amber {
+            animation: pulse-amber 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .cursor-blink {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: #ffc880;
+            vertical-align: middle;
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+        }
+        .console-scanline {
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            ), linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.02),
+                rgba(0, 255, 0, 0.01),
+                rgba(0, 0, 255, 0.02)
+            );
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        body {
+            background-color: #141318;
+            color: #e5e1e8;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+<body class="font-body-base text-body-base">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#ffb955",
+                      "on-secondary": "#003543",
+                      "tertiary": "#9bd9ff",
+                      "error": "#ffb4ab",
+                      "surface-container-low": "#1c1b20",
+                      "inverse-primary": "#835500",
+                      "secondary-fixed-dim": "#5bd5fc",
+                      "text-muted": "#9A98A6",
+                      "border": "#2A2933",
+                      "on-tertiary": "#00344a",
+                      "on-primary-container": "#644000",
+                      "outline-variant": "#524534",
+                      "surface-container-high": "#2b292f",
+                      "on-primary-fixed": "#291800",
+                      "primary-container": "#f5a623",
+                      "on-secondary-fixed-variant": "#004e61",
+                      "secondary-container": "#00a3c8",
+                      "surface-container-highest": "#353439",
+                      "background": "#141318",
+                      "surface-variant": "#353439",
+                      "on-primary": "#452b00",
+                      "on-surface-variant": "#d7c3ae",
+                      "outline": "#9f8e7a",
+                      "on-background": "#e5e1e8",
+                      "tertiary-container": "#3ac2ff",
+                      "secondary-fixed": "#b7eaff",
+                      "on-tertiary-container": "#004d6a",
+                      "surface-bright": "#3a383e",
+                      "surface": "#1D1C22",
+                      "on-error-container": "#ffdad6",
+                      "surface-container-lowest": "#0e0e12",
+                      "on-secondary-container": "#003341",
+                      "surface-dim": "#141318",
+                      "tertiary-fixed": "#c4e7ff",
+                      "error-container": "#93000a",
+                      "inverse-surface": "#e5e1e8",
+                      "tertiary-fixed-dim": "#7cd0ff",
+                      "primary-fixed": "#ffddb4",
+                      "on-tertiary-fixed": "#001e2c",
+                      "on-tertiary-fixed-variant": "#004c69",
+                      "on-error": "#690005",
+                      "primary": "#ffc880",
+                      "secondary": "#5bd5fc",
+                      "on-primary-fixed-variant": "#633f00",
+                      "on-surface": "#e5e1e8",
+                      "primary-fixed-dim": "#ffb955",
+                      "status-error": "#FF4B4B",
+                      "surface-container": "#201f24",
+                      "on-secondary-fixed": "#001f28",
+                      "text-primary": "#EDEBF2",
+                      "inverse-on-surface": "#313035"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-max": "900px",
+                      "gutter": "1rem",
+                      "margin-mobile": "1.25rem",
+                      "stack-gap": "1.5rem"
+              },
+              "fontFamily": {
+                      "body-base": ["Inter"],
+                      "label-mono": ["JetBrains Mono"],
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "console-log": ["JetBrains Mono"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "console-log": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+<!-- TopNavBar -->
+<header class="w-full top-0 border-b border-border bg-background dark:bg-background sticky z-50">
+<div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">JOBS AGENT</div>
+<nav class="hidden md:flex items-center gap-8 font-body-base text-body-base">
+<a class="text-primary border-b-2 border-primary pb-1 transition-colors" href="#">Dashboard</a>
+<a class="text-text-muted hover:text-text-primary transition-colors" href="#">History</a>
+<a class="text-text-muted hover:text-text-primary transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary active:opacity-80 transition-colors" data-icon="account_circle">account_circle</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-gutter py-stack-gap min-h-[calc(100vh-140px)]">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+<!-- Filter Column (Locked/Dimmed) -->
+<aside class="md:col-span-4 space-y-6 opacity-40 pointer-events-none select-none">
+<div class="bg-surface border border-border p-6 rounded-lg">
+<h2 class="font-headline-md text-[18px] mb-4 uppercase tracking-wider text-text-muted">Parameters</h2>
+<div class="space-y-4">
+<div>
+<label class="block font-label-mono text-label-mono text-text-muted mb-2">Job Title</label>
+<div class="bg-surface-container-low border border-border px-3 py-2 text-on-surface">Senior Product Designer</div>
+</div>
+<div>
+<label class="block font-label-mono text-label-mono text-text-muted mb-2">Location</label>
+<div class="bg-surface-container-low border border-border px-3 py-2 text-on-surface">Remote</div>
+</div>
+<div>
+<label class="block font-label-mono text-label-mono text-text-muted mb-2">Experience</label>
+<div class="bg-surface-container-low border border-border px-3 py-2 text-on-surface">5+ Years</div>
+</div>
+</div>
+<button class="w-full mt-8 bg-primary-container text-on-primary-container font-semibold py-3 rounded-lg flex items-center justify-center gap-2">
+<span class="material-symbols-outlined animate-spin" data-icon="sync">sync</span>
+                        Fetching…
+                    </button>
+</div>
+<div class="bg-surface-container-lowest border border-border border-dashed p-4 text-center">
+<p class="font-label-mono text-label-mono text-text-muted italic">Pipeline locked while agent is active</p>
+</div>
+</aside>
+<!-- Console Column -->
+<section class="md:col-span-8">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse-amber"></div>
+<span class="font-label-mono text-label-mono text-primary tracking-widest uppercase">agent · fetching</span>
+</div>
+<div class="font-label-mono text-label-mono text-text-muted">
+                        Session: #AF-9921
+                    </div>
+</div>
+<!-- Signature Console -->
+<div class="relative bg-surface-container-lowest border border-border rounded-lg overflow-hidden min-h-[420px] flex flex-col shadow-2xl">
+<!-- Console Header -->
+<div class="bg-surface border-b border-border px-4 py-2 flex items-center justify-between">
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-[#353439]"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#353439]"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-[#353439]"></div>
+</div>
+<div class="font-label-mono text-label-mono text-text-muted text-[10px]">TERMINAL — 80x24</div>
+</div>
+<!-- Console Body -->
+<div class="p-6 font-console-log text-console-log space-y-2 flex-grow overflow-y-auto">
+<div class="flex gap-3">
+<span class="text-secondary opacity-80 shrink-0">$</span>
+<span class="text-on-surface">Launching remote browser session...</span>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary opacity-80 shrink-0">$</span>
+<span class="text-on-surface">Initializing headless Chromium instance @ proxy node: US-EAST-1</span>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary opacity-80 shrink-0">$</span>
+<span class="text-on-surface">Applying filters: remote, posted past week, salary &gt; $140k</span>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary opacity-80 shrink-0">$</span>
+<span class="text-on-surface">Navigating to LinkedIn Jobs... [Success]</span>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary opacity-80 shrink-0">$</span>
+<span class="text-on-surface">Found 142 potential matches. Ranking by Fit Score...</span>
+</div>
+<div class="flex gap-3 mt-4">
+<span class="text-secondary opacity-80 shrink-0">$</span>
+<span class="text-on-surface">Extracting job 1/20: Principal Product Designer @ Linear</span>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary opacity-80 shrink-0">$</span>
+<span class="text-on-surface">Extracting job 2/20: Staff Designer @ Stripe</span>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary opacity-80 shrink-0">$</span>
+<span class="text-on-surface">Extracting job 3/20: Lead Product Designer @ Vercel</span>
+</div>
+<div class="flex gap-3 items-center">
+<span class="text-secondary opacity-80 shrink-0">$</span>
+<span class="text-on-surface">Analyzing JD requirements for semantic match...</span>
+<span class="cursor-blink"></span>
+</div>
+</div>
+<!-- Scanline Overlay -->
+<div class="absolute inset-0 console-scanline opacity-20 pointer-events-none"></div>
+</div>
+<!-- Active Card Feed Preview -->
+<div class="mt-8 grid grid-cols-1 gap-4">
+<h3 class="font-label-mono text-label-mono text-text-muted uppercase tracking-widest px-1">Live Pipeline</h3>
+<div class="bg-surface border border-border p-5 rounded-lg flex items-center justify-between group hover:border-primary transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-high rounded border border-border flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="work">work</span>
+</div>
+<div>
+<div class="font-bold text-text-primary">Principal Product Designer</div>
+<div class="text-body-sm text-text-muted">Linear · Remote</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="px-2 py-1 bg-secondary-container/20 border border-secondary/30 rounded text-[10px] font-label-mono text-secondary uppercase tracking-tighter">98% Fit</div>
+<span class="material-symbols-outlined text-text-muted" data-icon="open_in_new">open_in_new</span>
+</div>
+</div>
+<div class="bg-surface border border-border p-5 rounded-lg flex items-center justify-between opacity-60">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-high rounded border border-border flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="work">work</span>
+</div>
+<div>
+<div class="font-bold text-text-primary">Staff Designer</div>
+<div class="text-body-sm text-text-muted">Stripe · Global Remote</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="px-2 py-1 bg-secondary-container/10 border border-secondary/20 rounded text-[10px] font-label-mono text-secondary uppercase tracking-tighter">94% Fit</div>
+<span class="material-symbols-outlined text-text-muted" data-icon="open_in_new">open_in_new</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full flex justify-around items-center h-20 px-4 bg-surface-container border-t border-border z-50">
+<div class="flex flex-col items-center justify-center px-4 py-2 text-text-muted">
+<span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
+<span class="font-label-mono text-[10px]">Start Fetching</span>
+</div>
+<div class="bg-primary text-on-primary rounded-xl px-4 py-2 flex flex-col items-center justify-center">
+<span class="material-symbols-outlined" data-icon="stop">stop</span>
+<span class="font-label-mono text-[10px]">Stop</span>
+</div>
+<div class="flex flex-col items-center justify-center px-4 py-2 text-text-muted">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+<span class="font-label-mono text-[10px]">Refresh</span>
+</div>
+<div class="flex flex-col items-center justify-center px-4 py-2 text-text-muted">
+<span class="material-symbols-outlined" data-icon="ios_share">ios_share</span>
+<span class="font-label-mono text-[10px]">Export</span>
+</div>
+</nav>
+<script>
+        // Simple log generation logic to make it feel alive
+        const logContainer = document.querySelector('.font-console-log');
+        const logs = [
+            "Syncing resume data with LinkedIn profile...",
+            "Checking application status for Job #9822...",
+            "Simulating human scrolling patterns to bypass detection...",
+            "Validating API response from job board...",
+            "Job 4/20: Senior UX Architect @ Figma...",
+            "Fit Score calculation: 91% (Skill Match: High, Salary: Exact)..."
+        ];
+        let logIndex = 0;
+
+        function addLog() {
+            if (logIndex < logs.length) {
+                const newLog = document.createElement('div');
+                newLog.className = 'flex gap-3 opacity-0 transform translate-y-2 transition-all duration-300';
+                newLog.innerHTML = `
+                    <span class="text-secondary opacity-80 shrink-0">$</span>
+                    <span class="text-on-surface">${logs[logIndex]}</span>
+                `;
+                
+                // Insert before the cursor line
+                const cursorLine = logContainer.lastElementChild;
+                logContainer.insertBefore(newLog, cursorLine);
+                
+                // Trigger animation
+                setTimeout(() => {
+                    newLog.classList.remove('opacity-0', 'translate-y-2');
+                }, 50);
+
+                // Auto-scroll
+                logContainer.scrollTop = logContainer.scrollHeight;
+                
+                logIndex++;
+                setTimeout(addLog, Math.random() * 3000 + 2000);
+            }
+        }
+
+        // Start adding logs after a brief delay
+        setTimeout(addLog, 4000);
+    </script>
+</body></html>

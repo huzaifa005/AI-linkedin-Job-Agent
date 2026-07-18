@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JOBS AGENT | Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#ffb955",
+                    "on-secondary": "#003543",
+                    "tertiary": "#9bd9ff",
+                    "error": "#ffb4ab",
+                    "surface-container-low": "#1c1b20",
+                    "inverse-primary": "#835500",
+                    "secondary-fixed-dim": "#5bd5fc",
+                    "text-muted": "#9A98A6",
+                    "border": "#2A2933",
+                    "on-tertiary": "#00344a",
+                    "on-primary-container": "#644000",
+                    "outline-variant": "#524534",
+                    "surface-container-high": "#2b292f",
+                    "on-primary-fixed": "#291800",
+                    "primary-container": "#f5a623",
+                    "on-secondary-fixed-variant": "#004e61",
+                    "secondary-container": "#00a3c8",
+                    "surface-container-highest": "#353439",
+                    "background": "#141318",
+                    "surface-variant": "#353439",
+                    "on-primary": "#452b00",
+                    "on-surface-variant": "#d7c3ae",
+                    "outline": "#9f8e7a",
+                    "on-background": "#e5e1e8",
+                    "tertiary-container": "#3ac2ff",
+                    "secondary-fixed": "#b7eaff",
+                    "on-tertiary-container": "#004d6a",
+                    "surface-bright": "#3a383e",
+                    "surface": "#1D1C22",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0e0e12",
+                    "on-secondary-container": "#003341",
+                    "surface-dim": "#141318",
+                    "tertiary-fixed": "#c4e7ff",
+                    "error-container": "#93000a",
+                    "inverse-surface": "#e5e1e8",
+                    "tertiary-fixed-dim": "#7cd0ff",
+                    "primary-fixed": "#ffddb4",
+                    "on-tertiary-fixed": "#001e2c",
+                    "on-tertiary-fixed-variant": "#004c69",
+                    "on-error": "#690005",
+                    "primary": "#ffc880",
+                    "secondary": "#5bd5fc",
+                    "on-primary-fixed-variant": "#633f00",
+                    "on-surface": "#e5e1e8",
+                    "primary-fixed-dim": "#ffb955",
+                    "status-error": "#FF4B4B",
+                    "surface-container": "#201f24",
+                    "on-secondary-fixed": "#001f28",
+                    "text-primary": "#EDEBF2",
+                    "inverse-on-surface": "#313035"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "900px",
+                    "gutter": "1rem",
+                    "margin-mobile": "1.25rem",
+                    "stack-gap": "1.5rem"
+            },
+            "fontFamily": {
+                    "body-base": ["Inter"],
+                    "label-mono": ["JetBrains Mono"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "console-log": ["JetBrains Mono"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "console-log": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #141318; color: #EDEBF2; -webkit-font-smoothing: antialiased; }
+        .console-scanline {
+            background: linear-gradient(to bottom, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for terminal feel */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #141318; }
+        ::-webkit-scrollbar-thumb { background: #2A2933; border-radius: 2px; }
+    </style>
+</head>
+<body class="font-body-base text-body-base overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="w-full top-0 border-b border-border bg-background dark:bg-background z-50 sticky">
+<div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">
+                JOBS AGENT
+            </div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-primary border-b-2 border-primary pb-1 font-body-base text-body-base hover:text-text-primary transition-colors active:opacity-80" href="#">Dashboard</a>
+<a class="text-text-muted font-body-base text-body-base hover:text-text-primary transition-colors active:opacity-80" href="#">History</a>
+<a class="text-text-muted font-body-base text-body-base hover:text-text-primary transition-colors active:opacity-80" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-gutter pt-8 pb-32">
+<!-- Live Console Section -->
+<section class="mb-10">
+<div class="bg-surface-container-lowest border border-border rounded-lg overflow-hidden relative">
+<div class="console-scanline absolute inset-0 z-10"></div>
+<!-- Console Header -->
+<div class="flex items-center justify-between px-4 py-2 bg-surface-container-high border-b border-border relative z-20">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-secondary shadow-[0_0_8px_rgba(91,213,252,0.6)]"></div>
+<span class="font-label-mono text-label-mono text-secondary">agent · done</span>
+</div>
+<span class="font-label-mono text-label-mono text-text-muted">SESSION_ID: 8824-X</span>
+</div>
+<!-- Console Body -->
+<div class="p-4 font-console-log text-console-log space-y-1 max-h-40 overflow-y-auto relative z-20">
+<div class="text-text-muted"><span class="text-secondary">$</span> Initializing deep crawl for "Senior Product Designer"...</div>
+<div class="text-text-muted"><span class="text-secondary">$</span> 13 job descriptions retrieved from LinkedIn, Indeed, Greenhouse.</div>
+<div class="text-text-muted"><span class="text-secondary">$</span> Filtering by skill alignment and salary requirements...</div>
+<div class="text-text-muted"><span class="text-secondary">$</span> 6 listings discarded: Misaligned tech stack or seniority.</div>
+<div class="text-text-primary font-bold"><span class="text-secondary">$</span> All done. Review results below.</div>
+</div>
+</div>
+</section>
+<!-- Results Header -->
+<header class="mb-8">
+<h1 class="font-headline-lg text-headline-lg text-text-primary mb-1">Matched roles (7)</h1>
+<p class="font-body-base text-text-muted">13 fetched, 6 filtered out as not a fit.</p>
+</header>
+<!-- Jobs Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Job Card 1 -->
+<div class="bg-surface border border-border p-5 rounded-lg flex flex-col justify-between hover:border-secondary transition-colors group">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[18px] font-bold text-text-primary leading-tight">Senior Product Designer</h3>
+<span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded font-label-mono text-[10px] uppercase tracking-wider border border-secondary/20">fit</span>
+</div>
+<p class="font-body-sm text-text-muted mb-4">Linear · Remote</p>
+</div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono text-primary flex-wrap">
+<a class="hover:underline" href="#">ATS resume</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Cover letter</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Interview prep</a>
+</div>
+</div>
+<!-- Job Card 2 -->
+<div class="bg-surface border border-border p-5 rounded-lg flex flex-col justify-between hover:border-secondary transition-colors group">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[18px] font-bold text-text-primary leading-tight">Design Systems Lead</h3>
+<span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded font-label-mono text-[10px] uppercase tracking-wider border border-secondary/20">fit</span>
+</div>
+<p class="font-body-sm text-text-muted mb-4">Stripe · San Francisco</p>
+</div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono text-primary flex-wrap">
+<a class="hover:underline" href="#">ATS resume</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Cover letter</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Interview prep</a>
+</div>
+</div>
+<!-- Job Card 3 -->
+<div class="bg-surface border border-border p-5 rounded-lg flex flex-col justify-between hover:border-secondary transition-colors group">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[18px] font-bold text-text-primary leading-tight">Principal Product Designer</h3>
+<span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded font-label-mono text-[10px] uppercase tracking-wider border border-secondary/20">fit</span>
+</div>
+<p class="font-body-sm text-text-muted mb-4">Airbnb · Hybrid</p>
+</div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono text-primary flex-wrap">
+<a class="hover:underline" href="#">ATS resume</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Cover letter</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Interview prep</a>
+</div>
+</div>
+<!-- Job Card 4 -->
+<div class="bg-surface border border-border p-5 rounded-lg flex flex-col justify-between hover:border-secondary transition-colors group">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[18px] font-bold text-text-primary leading-tight">Product Designer, AI</h3>
+<span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded font-label-mono text-[10px] uppercase tracking-wider border border-secondary/20">fit</span>
+</div>
+<p class="font-body-sm text-text-muted mb-4">Anthropic · SF / London</p>
+</div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono text-primary flex-wrap">
+<a class="hover:underline" href="#">ATS resume</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Cover letter</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Interview prep</a>
+</div>
+</div>
+<!-- Job Card 5 -->
+<div class="bg-surface border border-border p-5 rounded-lg flex flex-col justify-between hover:border-secondary transition-colors group">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[18px] font-bold text-text-primary leading-tight">Staff Designer</h3>
+<span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded font-label-mono text-[10px] uppercase tracking-wider border border-secondary/20">fit</span>
+</div>
+<p class="font-body-sm text-text-muted mb-4">Vercel · Remote</p>
+</div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono text-primary flex-wrap">
+<a class="hover:underline" href="#">ATS resume</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Cover letter</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Interview prep</a>
+</div>
+</div>
+<!-- Job Card 6 -->
+<div class="bg-surface border border-border p-5 rounded-lg flex flex-col justify-between hover:border-secondary transition-colors group">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[18px] font-bold text-text-primary leading-tight">Interactive Designer</h3>
+<span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded font-label-mono text-[10px] uppercase tracking-wider border border-secondary/20">fit</span>
+</div>
+<p class="font-body-sm text-text-muted mb-4">Apple · Cupertino</p>
+</div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono text-primary flex-wrap">
+<a class="hover:underline" href="#">ATS resume</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Cover letter</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Interview prep</a>
+</div>
+</div>
+<!-- Job Card 7 -->
+<div class="bg-surface border border-border p-5 rounded-lg flex flex-col justify-between hover:border-secondary transition-colors group">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-[18px] font-bold text-text-primary leading-tight">Senior Visual Designer</h3>
+<span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded font-label-mono text-[10px] uppercase tracking-wider border border-secondary/20">fit</span>
+</div>
+<p class="font-body-sm text-text-muted mb-4">Framing · New York</p>
+</div>
+<div class="flex items-center gap-2 font-label-mono text-label-mono text-primary flex-wrap">
+<a class="hover:underline" href="#">ATS resume</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Cover letter</a>
+<span class="text-border text-[8px]">•</span>
+<a class="hover:underline" href="#">Interview prep</a>
+</div>
+</div>
+</div>
+<!-- Muted Non-Matches Placeholder -->
+<div class="mt-12 border-t border-border pt-8 opacity-40">
+<h4 class="font-label-mono text-label-mono text-text-muted uppercase tracking-widest mb-4">Filtered out (6)</h4>
+<div class="space-y-3">
+<div class="flex justify-between items-center py-2 border-b border-border/50">
+<span class="font-body-sm text-text-muted">Junior UX Researcher</span>
+<span class="font-label-mono text-[10px]">INSUFFICIENT SENIORITY</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-border/50">
+<span class="font-body-sm text-text-muted">Full Stack Engineer</span>
+<span class="font-label-mono text-[10px]">STACK MISMATCH</span>
+</div>
+</div>
+</div>
+</main>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden xl:flex fixed left-0 top-16 h-[calc(100vh-64px)] w-64 flex-col p-4 bg-surface dark:bg-surface border-r border-border font-label-mono text-label-mono">
+<div class="mb-8">
+<div class="flex items-center gap-3 mb-1">
+<img class="w-10 h-10 rounded-full border border-border" data-alt="A professional, minimalist agent avatar profile picture in a sleek circular frame. The avatar represents an AI assistant with subtle geometric patterns in soft blue and white, set against a dark carbon-fiber textured background. The lighting is low-key and high-tech." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjl83gXYhZo2S8Hte-ZmM0tHnYeH9fu7aaHsXNYM0XhckMNvag9dEHYJd5MplEx44iVlD8haLs8orIfYJOnlpAbfmOp1d36xBR_1_Og3wh0s05kK5b8IqjifMqTnHlLUCnriVM5FKxgCR68a68XYT5H5KMQMkAmX0GPohxMjRd52Y1aNNNedtOQF4NMk22uLfMKcAXRf_k18iAwH0C8ikyToaly2r1W3LexBwzrdcy7WdnFPCjxh6LWcgDoaiyEmI8wm8MOu5Kl7M"/>
+<div>
+<div class="text-on-surface font-bold">Agent Alpha</div>
+<div class="text-text-muted text-[10px]">Status: Idle</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-text-muted hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="radar">radar</span>
+                Active Pipeline
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-muted hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="hourglass_empty">hourglass_empty</span>
+                Pending
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary bg-surface-container-highest transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="archive">archive</span>
+                Archived
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-muted hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span>
+                Filters
+            </a>
+</nav>
+<div class="mt-auto pt-4 border-t border-border space-y-1">
+<button class="w-full bg-primary text-on-primary font-bold py-3 rounded mb-4 active:scale-95 transition-transform">
+                New Search
+            </button>
+<a class="flex items-center gap-3 px-3 py-2 text-text-muted hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="terminal">terminal</span>
+                Logs
+            </a>
+<a class="flex items-center gap-3 px-3 py-2 text-text-muted hover:bg-surface-container-high transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span>
+                Docs
+            </a>
+</div>
+</aside>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-container dark:bg-surface-container border-t border-border flex justify-around items-center h-20 px-4 font-label-mono text-label-mono">
+<div class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
+<span class="mt-1">Start Fetching</span>
+</div>
+<div class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="stop">stop</span>
+<span class="mt-1">Stop</span>
+</div>
+<div class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+<span class="mt-1">Refresh</span>
+</div>
+<div class="bg-primary text-on-primary rounded-xl px-4 py-2 flex flex-col items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="ios_share">ios_share</span>
+<span class="mt-1">Export</span>
+</div>
+</nav>
+<script>
+        // Micro-interaction: Mimic cursor blink in console
+        const lastLog = document.querySelector('.font-console-log div:last-child');
+        if(lastLog) {
+            const cursor = document.createElement('span');
+            cursor.className = 'inline-block w-2 h-4 bg-secondary ml-1 align-middle animate-pulse';
+            lastLog.appendChild(cursor);
+        }
+
+        // Job Card Hover Effect Logic
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.transition = 'transform 0.2s ease, border-color 0.2s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

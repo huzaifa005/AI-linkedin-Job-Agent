@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JOBS AGENT - Analyzing State</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes pulse-amber {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.9); }
+        }
+        .animate-pulse-amber {
+            animation: pulse-amber 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .cursor-blink {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: #ffc880;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        .console-scanline {
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(255, 200, 128, 0.02) 50%
+            );
+            background-size: 100% 4px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#ffb955",
+                        "on-secondary": "#003543",
+                        "tertiary": "#9bd9ff",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1c1b20",
+                        "inverse-primary": "#835500",
+                        "secondary-fixed-dim": "#5bd5fc",
+                        "text-muted": "#9A98A6",
+                        "border": "#2A2933",
+                        "on-tertiary": "#00344a",
+                        "on-primary-container": "#644000",
+                        "outline-variant": "#524534",
+                        "surface-container-high": "#2b292f",
+                        "on-primary-fixed": "#291800",
+                        "primary-container": "#f5a623",
+                        "on-secondary-fixed-variant": "#004e61",
+                        "secondary-container": "#00a3c8",
+                        "surface-container-highest": "#353439",
+                        "background": "#141318",
+                        "surface-variant": "#353439",
+                        "on-primary": "#452b00",
+                        "on-surface-variant": "#d7c3ae",
+                        "outline": "#9f8e7a",
+                        "on-background": "#e5e1e8",
+                        "tertiary-container": "#3ac2ff",
+                        "secondary-fixed": "#b7eaff",
+                        "on-tertiary-container": "#004d6a",
+                        "surface-bright": "#3a383e",
+                        "surface": "#1D1C22",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#201f24",
+                        "on-secondary-container": "#003341",
+                        "surface-dim": "#141318",
+                        "tertiary-fixed": "#c4e7ff",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e5e1e8",
+                        "tertiary-fixed-dim": "#7cd0ff",
+                        "primary-fixed": "#ffddb4",
+                        "on-tertiary-fixed": "#001e2c",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "on-error": "#690005",
+                        "primary": "#ffc880",
+                        "secondary": "#5bd5fc",
+                        "on-primary-fixed-variant": "#633f00",
+                        "on-surface": "#e5e1e8",
+                        "primary-fixed-dim": "#ffb955",
+                        "status-error": "#FF4B4B",
+                        "surface-container": "#201f24",
+                        "on-secondary-fixed": "#001f28",
+                        "text-primary": "#EDEBF2",
+                        "inverse-on-surface": "#313035"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "900px",
+                        "gutter": "1rem",
+                        "margin-mobile": "1.25rem",
+                        "stack-gap": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "body-base": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "console-log": ["JetBrains Mono"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "console-log": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-base selection:bg-primary selection:text-on-primary min-h-screen pb-24 md:pb-0">
+<!-- TopNavBar -->
+<header class="w-full top-0 border-b border-border bg-background dark:bg-background z-50 sticky">
+<div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">
+                JOBS AGENT
+            </div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-body-base text-body-base text-primary border-b-2 border-primary pb-1 hover:text-text-primary transition-colors active:opacity-80" href="#">Dashboard</a>
+<a class="font-body-base text-body-base text-text-muted hover:text-text-primary transition-colors active:opacity-80" href="#">History</a>
+<a class="font-body-base text-body-base text-text-muted hover:text-text-primary transition-colors active:opacity-80" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary text-2xl">account_circle</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-gutter py-8 space-y-stack-gap">
+<!-- CV Upload Card (Dimmed/Analyzing) -->
+<section class="opacity-50 pointer-events-none transition-opacity duration-500">
+<div class="bg-surface border border-border p-6 rounded-lg flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-4 w-full md:w-auto">
+<div class="w-12 h-12 bg-surface-container-highest flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-text-muted">description</span>
+</div>
+<div>
+<p class="font-body-base text-text-primary font-semibold">Alex_Chen_CV_2024.pdf</p>
+<p class="font-label-mono text-label-mono text-text-muted">Uploaded 2m ago · 1.2 MB</p>
+</div>
+</div>
+<button class="w-full md:w-auto bg-primary text-on-primary font-body-base py-3 px-8 rounded-lg font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined animate-spin text-[20px]">sync</span>
+                    Analyzing…
+                </button>
+</div>
+</section>
+<!-- Signature Element: The Live Console -->
+<section class="bg-surface-container-lowest border border-border rounded-lg overflow-hidden relative">
+<div class="console-scanline absolute inset-0 pointer-events-none opacity-20"></div>
+<!-- Console Header -->
+<div class="flex items-center justify-between px-4 py-2 border-b border-border bg-surface-container">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse-amber"></div>
+<span class="font-label-mono text-label-mono text-primary tracking-widest">agent · analyzing</span>
+</div>
+<div class="font-label-mono text-label-mono text-text-muted">
+                    Session: #4092-ALPHA
+                </div>
+</div>
+<!-- Console Body -->
+<div class="p-4 font-console-log text-console-log min-h-[160px] space-y-1">
+<div class="text-secondary">$ Reading CV</div>
+<div class="text-on-surface"><span class="text-secondary">$</span> Matched + generated docs for: <span class="text-primary font-semibold">Senior Product Designer</span></div>
+<div class="text-text-muted opacity-60"><span class="text-text-muted">$</span> Skipping (not a fit): Backend Engineer</div>
+<div class="text-on-surface"><span class="text-secondary">$</span> Matched + generated docs for: <span class="text-primary font-semibold">UX Designer, eCommerce</span><span class="cursor-blink"></span></div>
+</div>
+</section>
+<!-- Roles Grid -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h2 class="font-headline-md text-headline-md text-text-primary">Current Pipeline</h2>
+<span class="font-label-mono text-label-mono text-text-muted">4 ACTIVE PROCESSES</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Fit Job 1 -->
+<div class="bg-surface border border-border p-5 rounded-lg group hover:border-primary transition-all duration-300">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-secondary/10 text-secondary border border-secondary/20 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Fit</span>
+<span class="material-symbols-outlined text-text-muted text-lg">open_in_new</span>
+</div>
+<h3 class="font-body-base text-text-primary font-bold mb-1">Senior Product Designer</h3>
+<p class="font-body-sm text-text-muted">Stripe · Remote (Global)</p>
+<div class="mt-4 pt-4 border-t border-border flex justify-between items-center">
+<span class="font-label-mono text-label-mono text-secondary">DOCS GENERATED</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border border-border flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] text-text-primary">description</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border border-border flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] text-text-primary">mail</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Not a Fit Job -->
+<div class="bg-surface border border-border p-5 rounded-lg opacity-40 grayscale">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-surface-container-highest text-text-muted border border-border text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Not a Match</span>
+</div>
+<h3 class="font-body-base text-text-primary font-bold mb-1">Backend Engineer</h3>
+<p class="font-body-sm text-text-muted">Vercel · Hybrid</p>
+<p class="mt-3 font-label-mono text-label-mono italic text-text-muted">Missing: Node.js/Rust experience requirements.</p>
+</div>
+<!-- Fit Job 2 -->
+<div class="bg-surface border border-border p-5 rounded-lg group hover:border-primary transition-all duration-300">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-secondary/10 text-secondary border border-secondary/20 text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Fit</span>
+<span class="material-symbols-outlined text-text-muted text-lg">open_in_new</span>
+</div>
+<h3 class="font-body-base text-text-primary font-bold mb-1">UX Designer, eCommerce</h3>
+<p class="font-body-sm text-text-muted">Shopify · Toronto, CA</p>
+<div class="mt-4 pt-4 border-t border-border flex justify-between items-center">
+<span class="font-label-mono text-label-mono text-secondary">DOCS GENERATED</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest border border-border flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] text-text-primary">description</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Not a Fit Job 2 -->
+<div class="bg-surface border border-border p-5 rounded-lg opacity-40 grayscale">
+<div class="flex justify-between items-start mb-3">
+<span class="bg-surface-container-highest text-text-muted border border-border text-[10px] px-2 py-0.5 rounded font-bold uppercase tracking-wider">Not a Match</span>
+</div>
+<h3 class="font-body-base text-text-primary font-bold mb-1">Creative Director</h3>
+<p class="font-body-sm text-text-muted">Nike · Portland, OR</p>
+<p class="mt-3 font-label-mono text-label-mono italic text-text-muted">Requirement: 12+ years leadership experience.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-container border-t border-border flex justify-around items-center h-20 px-4">
+<div class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined">play_arrow</span>
+<span class="font-label-mono text-label-mono">Start Fetching</span>
+</div>
+<div class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined">stop</span>
+<span class="font-label-mono text-label-mono">Stop</span>
+</div>
+<div class="bg-primary text-on-primary rounded-xl px-4 py-2 flex flex-col items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined">refresh</span>
+<span class="font-label-mono text-label-mono">Refresh</span>
+</div>
+<div class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined">ios_share</span>
+<span class="font-label-mono text-label-mono">Export</span>
+</div>
+</nav>
+<script>
+        // Micro-interaction: Periodic "log" simulation
+        const consoleLines = [
+            '<div class="text-on-surface"><span class="text-secondary">$</span> Finalizing matching engine...</div>',
+            '<div class="text-on-surface"><span class="text-secondary">$</span> Rank: 94% fit for Senior Product Designer</div>',
+            '<div class="text-on-surface"><span class="text-secondary">$</span> Updating local database...</div>'
+        ];
+        
+        let lineIdx = 0;
+        const consoleContainer = document.querySelector('.font-console-log');
+        const blinker = document.querySelector('.cursor-blink');
+
+        function addNewLine() {
+            if (lineIdx < consoleLines.length) {
+                const newLine = document.createElement('div');
+                newLine.innerHTML = consoleLines[lineIdx];
+                // Move the blinker to the new last line
+                const content = newLine.querySelector('div') || newLine;
+                content.appendChild(blinker);
+                consoleContainer.appendChild(newLine);
+                lineIdx++;
+                
+                // Auto-scroll
+                consoleContainer.scrollTop = consoleContainer.scrollHeight;
+            }
+        }
+
+        // Add a line every 4 seconds to simulate "live" thinking
+        setInterval(addNewLine, 4000);
+    </script>
+</body></html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JOBS AGENT - Job Detail Drawer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .console-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background-color: #ffc880;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .drawer-slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        .overlay-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#ffb955",
+                        "on-secondary": "#003543",
+                        "tertiary": "#9bd9ff",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1c1b20",
+                        "inverse-primary": "#835500",
+                        "secondary-fixed-dim": "#5bd5fc",
+                        "text-muted": "#9A98A6",
+                        "border": "#2A2933",
+                        "on-tertiary": "#00344a",
+                        "on-primary-container": "#644000",
+                        "outline-variant": "#524534",
+                        "surface-container-high": "#2b292f",
+                        "on-primary-fixed": "#291800",
+                        "primary-container": "#f5a623",
+                        "on-secondary-fixed-variant": "#004e61",
+                        "secondary-container": "#00a3c8",
+                        "surface-container-highest": "#353439",
+                        "background": "#141318",
+                        "surface-variant": "#353439",
+                        "on-primary": "#452b00",
+                        "on-surface-variant": "#d7c3ae",
+                        "outline": "#9f8e7a",
+                        "on-background": "#e5e1e8",
+                        "tertiary-container": "#3ac2ff",
+                        "secondary-fixed": "#b7eaff",
+                        "on-tertiary-container": "#004d6a",
+                        "surface-bright": "#3a383e",
+                        "surface": "#1D1C22",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#0e0e12",
+                        "on-secondary-container": "#003341",
+                        "surface-dim": "#141318",
+                        "tertiary-fixed": "#c4e7ff",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#e5e1e8",
+                        "tertiary-fixed-dim": "#7cd0ff",
+                        "primary-fixed": "#ffddb4",
+                        "on-tertiary-fixed": "#001e2c",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "on-error": "#690005",
+                        "primary": "#ffc880",
+                        "secondary": "#5bd5fc",
+                        "on-primary-fixed-variant": "#633f00",
+                        "on-surface": "#e5e1e8",
+                        "primary-fixed-dim": "#ffb955",
+                        "status-error": "#FF4B4B",
+                        "surface-container": "#201f24",
+                        "on-secondary-fixed": "#001f28",
+                        "text-primary": "#EDEBF2",
+                        "inverse-on-surface": "#313035"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "900px",
+                        "gutter": "1rem",
+                        "margin-mobile": "1.25rem",
+                        "stack-gap": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "body-base": ["Inter"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "console-log": ["JetBrains Mono"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "console-log": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-base antialiased overflow-hidden">
+<!-- Dimmed Page Content Background -->
+<main class="flex h-screen w-screen opacity-50 pointer-events-none grayscale-[0.2]">
+<!-- SideNavBar Shared Component (Blueprint only) -->
+<aside class="hidden md:flex flex-col h-screen p-4 bg-surface border-r border-border w-64">
+<div class="font-headline-md text-on-surface mb-8 tracking-tighter">JOBS AGENT</div>
+<nav class="flex-1 space-y-2">
+<div class="flex items-center gap-3 p-3 text-primary bg-surface-container-highest rounded">
+<span class="material-symbols-outlined" data-icon="radar">radar</span>
+<span class="font-label-mono uppercase tracking-wider">Active Pipeline</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-text-muted hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="hourglass_empty">hourglass_empty</span>
+<span class="font-label-mono uppercase tracking-wider">Pending</span>
+</div>
+<div class="flex items-center gap-3 p-3 text-text-muted hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="archive">archive</span>
+<span class="font-label-mono uppercase tracking-wider">Archived</span>
+</div>
+</nav>
+</aside>
+<!-- Main Content Skeleton -->
+<section class="flex-1 p-gutter max-w-container-max mx-auto">
+<div class="flex justify-between items-center mb-8">
+<h1 class="font-headline-lg text-headline-lg text-text-primary">Pipeline Activity</h1>
+<div class="h-10 w-32 bg-surface border border-border"></div>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Skeleton Job Card -->
+<div class="bg-surface border border-border p-4 flex justify-between items-center">
+<div class="space-y-2">
+<div class="h-6 w-48 bg-surface-container-highest"></div>
+<div class="h-4 w-32 bg-surface-container"></div>
+</div>
+<div class="h-8 w-24 bg-primary-container"></div>
+</div>
+<div class="bg-surface border border-border p-4 flex justify-between items-center">
+<div class="space-y-2">
+<div class="h-6 w-64 bg-surface-container-highest"></div>
+<div class="h-4 w-40 bg-surface-container"></div>
+</div>
+<div class="h-8 w-24 bg-primary-container"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- Drawer Overlay -->
+<div class="fixed inset-0 bg-black/60 z-40 overlay-fade-in backdrop-blur-sm"></div>
+<!-- Job Detail Drawer (Screen 7) -->
+<div class="fixed right-0 top-0 h-full w-full md:w-[480px] bg-surface z-50 shadow-2xl border-l border-border drawer-slide-in flex flex-col" id="job-detail-drawer">
+<!-- Header Section -->
+<header class="p-gutter border-b border-border flex justify-between items-start">
+<div class="space-y-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 bg-secondary/10 text-secondary font-label-mono text-[10px] tracking-widest border border-secondary/30 rounded-sm">FIT</span>
+<span class="text-text-muted font-label-mono text-[10px]">ID: AGENT_772_BX</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-text-primary leading-tight">Senior Product Designer (Automation Systems)</h2>
+<p class="text-text-muted font-body-sm">Neural Dynamics AI • Menlo Park, CA (Remote)</p>
+</div>
+<button aria-label="Close Drawer" class="p-2 text-text-muted hover:text-text-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<div class="flex-1 overflow-y-auto p-gutter space-y-stack-gap">
+<!-- Live Console Trace (The Signature Motif) -->
+<div class="bg-surface-container-lowest border border-border p-4">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-mono text-secondary text-[11px] uppercase tracking-widest">agent · analyzing_fit</span>
+</div>
+<span class="font-label-mono text-text-muted text-[11px]">MATCH: 94.2%</span>
+</div>
+<div class="font-console-log text-console-log space-y-1 overflow-hidden opacity-80">
+<p class="text-secondary"><span class="mr-2 opacity-50">$</span>Initializing document synthesis...</p>
+<p class="text-on-surface"><span class="mr-2 opacity-50">$</span>Mapping skills to JD keywords: automation, UI/UX, agentic workflows.</p>
+<p class="text-on-surface"><span class="mr-2 opacity-50">$</span>Drafting tailored cover letter for Neural Dynamics AI.</p>
+<p class="text-primary"><span class="mr-2 opacity-50">$</span>Optimization complete. Ready for export.<span class="console-cursor"></span></p>
+</div>
+</div>
+<!-- Documents Section -->
+<div class="space-y-4">
+<h3 class="font-label-mono text-text-muted uppercase tracking-[0.2em] text-[11px]">Generated Assets</h3>
+<!-- ATS RESUME -->
+<div class="group flex items-center gap-4 p-4 bg-surface-container border border-border hover:border-primary/50 transition-colors">
+<div class="w-12 h-16 bg-surface-container-highest border border-border flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-text-muted" data-icon="description">description</span>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-primary"></div>
+</div>
+<div class="flex-1">
+<div class="font-body-base text-text-primary font-semibold">ATS RESUME</div>
+<div class="text-text-muted text-[12px] font-label-mono">optimized_resume_v1.pdf</div>
+</div>
+<button class="px-4 py-2 border border-primary text-primary font-label-mono text-[11px] uppercase tracking-wider hover:bg-primary/10 transition-colors active:opacity-80">
+                        Download
+                    </button>
+</div>
+<!-- COVER LETTER -->
+<div class="group flex items-center gap-4 p-4 bg-surface-container border border-border hover:border-primary/50 transition-colors">
+<div class="w-12 h-16 bg-surface-container-highest border border-border flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-text-muted" data-icon="article">article</span>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-primary"></div>
+</div>
+<div class="flex-1">
+<div class="font-body-base text-text-primary font-semibold">COVER LETTER</div>
+<div class="text-text-muted text-[12px] font-label-mono">tailored_letter.pdf</div>
+</div>
+<button class="px-4 py-2 border border-primary text-primary font-label-mono text-[11px] uppercase tracking-wider hover:bg-primary/10 transition-colors active:opacity-80">
+                        Download
+                    </button>
+</div>
+<!-- INTERVIEW PREP -->
+<div class="group flex items-center gap-4 p-4 bg-surface-container border border-border hover:border-primary/50 transition-colors">
+<div class="w-12 h-16 bg-surface-container-highest border border-border flex items-center justify-center relative overflow-hidden">
+<span class="material-symbols-outlined text-text-muted" data-icon="quiz">quiz</span>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-secondary"></div>
+</div>
+<div class="flex-1">
+<div class="font-body-base text-text-primary font-semibold">INTERVIEW PREP</div>
+<div class="text-text-muted text-[12px] font-label-mono">company_briefing.pdf</div>
+</div>
+<button class="px-4 py-2 border border-primary text-primary font-label-mono text-[11px] uppercase tracking-wider hover:bg-primary/10 transition-colors active:opacity-80">
+                        Download
+                    </button>
+</div>
+</div>
+<!-- Visual Context Image -->
+<div class="h-48 w-full border border-border relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A macro close-up of a high-resolution motherboard with glowing neon amber and cyan circuits. The aesthetic is extremely technical and minimalist, featuring precise 1px architectural lines and a soft, dark matte finish. The lighting is dramatic and cinematic, highlighting the intricate automation pathways. The image conveys a sense of high-performance computing and data processing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmQDFhCwDrFI5htf_sIENB5vduhdwGyUzW61YPfCozd_rj4fC4W3j9T0gB6MnxJqhrT4BxkZwjyaq4mjQRr66V_CfaRN1Q6aY6y5l7LJ5GDRbc4knrwokoCmTj86bqPsZ1wpAC7eUQLX_o41LJ9yYXeo7AFoMvqjG5uKZt1lG2H1MoEFN6qL09OfL7M5vr0WXRvWpxWeBlZIWLKbeqwZoQcfKuku-ZjOUmnKXkscfJZSYpJrA8zuFzitssakZDbfuQGIK5tRW-S6o"/>
+<div class="absolute bottom-3 left-3 z-20">
+<span class="font-label-mono text-[10px] text-primary bg-background/80 px-2 py-1 border border-border">ASSET_CONTEXT_MAP</span>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<footer class="p-gutter border-t border-border bg-surface-container-low space-y-4">
+<div class="flex justify-center">
+<a class="text-text-muted hover:text-primary font-label-mono text-[12px] flex items-center gap-2 transition-colors group" href="#">
+                    View original posting
+                    <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform" data-icon="open_in_new">open_in_new</span>
+</a>
+</div>
+<button class="w-full py-4 border border-border text-text-primary font-headline-md text-body-base uppercase tracking-[0.1em] hover:bg-surface-container-high transition-all active:scale-[0.98]">
+                Mark as applied
+            </button>
+</footer>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Close drawer on overlay click
+            const overlay = document.querySelector('.fixed.inset-0.bg-black\\/60');
+            const drawer = document.getElementById('job-detail-drawer');
+            const closeBtn = drawer.querySelector('button[aria-label="Close Drawer"]');
+
+            const closeDrawer = () => {
+                drawer.style.transform = 'translateX(100%)';
+                drawer.style.transition = 'transform 0.3s ease-in';
+                overlay.style.opacity = '0';
+                overlay.style.transition = 'opacity 0.3s ease-in';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    drawer.style.display = 'none';
+                }, 300);
+            };
+
+            closeBtn.addEventListener('click', closeDrawer);
+            overlay.addEventListener('click', closeDrawer);
+
+            // Simulation of console logging
+            const consoleLines = document.querySelectorAll('.font-console-log p');
+            consoleLines.forEach((line, index) => {
+                line.style.opacity = '0';
+                setTimeout(() => {
+                    line.style.opacity = '1';
+                    line.style.transition = 'opacity 0.5s ease-out';
+                }, 500 + (index * 800));
+            });
+        });
+    </script>
+</body></html>

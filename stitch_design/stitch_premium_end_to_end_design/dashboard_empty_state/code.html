@@ -1,0 +1,279 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>JOBS AGENT - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.9); }
+        }
+        .status-dot-pulse {
+            animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .console-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: #ffc880;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        body {
+            background-color: #141318;
+            color: #e5e1e8;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#ffb955",
+                    "on-secondary": "#003543",
+                    "tertiary": "#9bd9ff",
+                    "error": "#ffb4ab",
+                    "surface-container-low": "#1c1b20",
+                    "inverse-primary": "#835500",
+                    "secondary-fixed-dim": "#5bd5fc",
+                    "text-muted": "#9A98A6",
+                    "border": "#2A2933",
+                    "on-tertiary": "#00344a",
+                    "on-primary-container": "#644000",
+                    "outline-variant": "#524534",
+                    "surface-container-high": "#2b292f",
+                    "on-primary-fixed": "#291800",
+                    "primary-container": "#f5a623",
+                    "on-secondary-fixed-variant": "#004e61",
+                    "secondary-container": "#00a3c8",
+                    "surface-container-highest": "#353439",
+                    "background": "#141318",
+                    "surface-variant": "#353439",
+                    "on-primary": "#452b00",
+                    "on-surface-variant": "#d7c3ae",
+                    "outline": "#9f8e7a",
+                    "on-background": "#e5e1e8",
+                    "tertiary-container": "#3ac2ff",
+                    "secondary-fixed": "#b7eaff",
+                    "on-tertiary-container": "#004d6a",
+                    "surface-bright": "#3a383e",
+                    "surface": "#1D1C22",
+                    "on-error-container": "#ffdad6",
+                    "surface-container": "#201f24",
+                    "on-secondary-container": "#003341",
+                    "surface-dim": "#141318",
+                    "tertiary-fixed": "#c4e7ff",
+                    "error-container": "#93000a",
+                    "inverse-surface": "#e5e1e8",
+                    "tertiary-fixed-dim": "#7cd0ff",
+                    "primary-fixed": "#ffddb4",
+                    "on-tertiary-fixed": "#001e2c",
+                    "on-tertiary-fixed-variant": "#004c69",
+                    "on-error": "#690005",
+                    "primary": "#ffc880",
+                    "secondary": "#5bd5fc",
+                    "on-primary-fixed-variant": "#633f00",
+                    "on-surface": "#e5e1e8",
+                    "primary-fixed-dim": "#ffb955",
+                    "status-error": "#FF4B4B",
+                    "surface-container": "#201f24",
+                    "on-secondary-fixed": "#001f28",
+                    "text-primary": "#EDEBF2",
+                    "inverse-on-surface": "#313035"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "900px",
+                    "gutter": "1rem",
+                    "margin-mobile": "1.25rem",
+                    "stack-gap": "1.5rem"
+            },
+            "fontFamily": {
+                    "body-base": ["Inter"],
+                    "label-mono": ["JetBrains Mono"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "console-log": ["JetBrains Mono"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "console-log": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="min-h-screen font-body-base antialiased overflow-x-hidden">
+<!-- TopNavBar Mapping -->
+<header class="bg-background dark:bg-background border-b border-border w-full top-0 z-50">
+<div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tighter">JOBS AGENT</h1>
+<nav class="hidden md:flex items-center space-x-6">
+<a class="font-body-base text-body-base text-primary border-b-2 border-primary pb-1 transition-colors" href="#">Dashboard</a>
+<a class="font-body-base text-body-base text-text-muted hover:text-text-primary transition-colors" href="#">History</a>
+<a class="font-body-base text-body-base text-text-muted hover:text-text-primary transition-colors" href="#">Settings</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="active:opacity-80 text-primary dark:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-gutter pt-8 pb-32">
+<!-- Filter Card Section -->
+<section class="mb-10">
+<div class="bg-surface border border-border p-6 rounded-lg">
+<div class="flex items-center gap-2 mb-6 text-primary">
+<span class="font-label-mono text-label-mono uppercase tracking-widest bg-primary-container/20 px-2 py-0.5 rounded">1 · Set your search</span>
+</div>
+<div class="grid grid-cols-1 gap-4 items-end md:grid-cols-5"><div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-text-muted">Target Role</label>
+<input class="bg-surface border border-border text-text-primary px-3 py-2 rounded font-body-base focus:outline-none focus:border-primary placeholder:text-text-muted/50" type="text" placeholder="e.g. Senior Product Designer">
+</div>
+<!-- Work Type -->
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-text-muted">Work Type</label>
+<select class="bg-surface border border-border text-text-primary px-3 py-2 rounded focus:outline-none focus:border-primary appearance-none">
+<option>Remote</option>
+<option>Hybrid</option>
+<option>On-site</option>
+</select>
+</div>
+<!-- Date Posted -->
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-text-muted">Date Posted</label>
+<select class="bg-surface border border-border text-text-primary px-3 py-2 rounded focus:outline-none focus:border-primary appearance-none">
+<option>Past 24 hours</option>
+<option>Past week</option>
+<option>Past month</option>
+</select>
+</div>
+<!-- Job Count -->
+<div class="flex flex-col gap-2">
+<label class="font-label-mono text-label-mono text-text-muted">Max Fetch</label>
+<input class="bg-surface border border-border text-text-primary px-3 py-2 rounded font-label-mono focus:outline-none focus:border-primary" type="number" value="25">
+</div>
+<!-- CTA -->
+<div>
+<button class="w-full bg-primary text-on-primary font-bold px-6 py-2.5 rounded hover:opacity-90 transition-all flex items-center justify-center gap-2 active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]" data-icon="play_arrow">play_arrow</span>
+                            Start fetching
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Idle Signature Console -->
+<section class="mb-10">
+<div class="bg-[#141318] border border-border rounded-lg overflow-hidden relative shadow-2xl">
+<!-- Console Header -->
+<div class="bg-surface border-b border-border px-4 py-2 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-text-muted status-dot-pulse"></div>
+<span class="font-label-mono text-label-mono text-text-muted uppercase tracking-tight">agent · standing by</span>
+</div>
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-border"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-border"></div>
+</div>
+</div>
+<!-- Console Body -->
+<div class="p-6 h-64 font-console-log text-console-log text-text-muted">
+<div class="flex gap-2 mb-2">
+<span class="text-secondary">$</span>
+<p class="">Waiting for instructions…</p>
+<span class="console-cursor"></span>
+</div>
+<!-- Decorative scanline effect -->
+<div class="absolute inset-0 pointer-events-none opacity-[0.03]" style="background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 2px, 3px 100%;"></div>
+</div>
+</div>
+</section>
+<!-- Empty State Visual Cue -->
+<div class="flex flex-col items-center justify-center py-20 text-center opacity-40">
+<span class="material-symbols-outlined text-[64px] mb-4 text-border" data-icon="search_off">search_off</span>
+<p class="font-label-mono text-label-mono uppercase tracking-widest text-text-muted">No jobs in pipeline</p>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-container border-t border-border flex justify-around items-center h-20 px-4">
+<button class="bg-primary text-on-primary rounded-xl px-4 py-2 flex flex-col items-center justify-center transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="play_arrow">play_arrow</span>
+<span class="font-label-mono text-[10px] mt-1">Start Fetching</span>
+</button>
+<button class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="stop">stop</span>
+<span class="font-label-mono text-[10px] mt-1">Stop</span>
+</button>
+<button class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+<span class="font-label-mono text-[10px] mt-1">Refresh</span>
+</button>
+<button class="text-text-muted flex flex-col items-center justify-center px-4 py-2 hover:text-primary transition-transform active:scale-95">
+<span class="material-symbols-outlined" data-icon="ios_share">ios_share</span>
+<span class="font-label-mono text-[10px] mt-1">Export</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction: Start Fetching Simulation (Partial)
+        const fetchBtn = document.querySelector('button.bg-primary');
+        const consoleLog = document.querySelector('.font-console-log');
+        const statusDot = document.querySelector('.status-dot-pulse');
+        const statusText = document.querySelector('.agent-status-text');
+
+        fetchBtn?.addEventListener('click', () => {
+            const logs = [
+                "Initializing agent sequence...",
+                "Authenticating with job boards...",
+                "Searching remote opportunities...",
+                "Filtering by work type: Remote...",
+                "Scanning for most recent postings..."
+            ];
+            
+            let i = 0;
+            consoleLog.innerHTML = "";
+            statusDot.classList.remove('bg-text-muted');
+            statusDot.classList.add('bg-secondary');
+            
+            const interval = setInterval(() => {
+                if(i < logs.length) {
+                    const line = document.createElement('div');
+                    line.className = "flex gap-2 mb-2";
+                    line.innerHTML = `<span class="text-secondary">$</span><p>${logs[i]}</p>`;
+                    consoleLog.appendChild(line);
+                    i++;
+                } else {
+                    const cursorLine = document.createElement('div');
+                    cursorLine.className = "flex gap-2 mb-2";
+                    cursorLine.innerHTML = `<span class="text-secondary">$</span><p>Fetching active results...</p><span class="console-cursor"></span>`;
+                    consoleLog.appendChild(cursorLine);
+                    clearInterval(interval);
+                }
+            }, 800);
+        });
+    </script>
+
+
+</body></html>

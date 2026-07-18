@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Interview Prep Doc Viewer | JOBS AGENT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #141318;
+            color: #EDEBF2;
+        }
+        .console-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 15px;
+            background-color: #ffc880;
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .doc-canvas {
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-tint": "#ffb955",
+                      "on-secondary": "#003543",
+                      "tertiary": "#9bd9ff",
+                      "error": "#ffb4ab",
+                      "surface-container-low": "#1c1b20",
+                      "inverse-primary": "#835500",
+                      "secondary-fixed-dim": "#5bd5fc",
+                      "text-muted": "#9A98A6",
+                      "border": "#2A2933",
+                      "on-tertiary": "#00344a",
+                      "on-primary-container": "#644000",
+                      "outline-variant": "#524534",
+                      "surface-container-high": "#2b292f",
+                      "on-primary-fixed": "#291800",
+                      "primary-container": "#f5a623",
+                      "on-secondary-fixed-variant": "#004e61",
+                      "secondary-container": "#00a3c8",
+                      "surface-container-highest": "#353439",
+                      "background": "#141318",
+                      "surface-variant": "#353439",
+                      "on-primary": "#452b00",
+                      "on-surface-variant": "#d7c3ae",
+                      "outline": "#9f8e7a",
+                      "on-background": "#e5e1e8",
+                      "tertiary-container": "#3ac2ff",
+                      "secondary-fixed": "#b7eaff",
+                      "on-tertiary-container": "#004d6a",
+                      "surface-bright": "#3a383e",
+                      "surface": "#1D1C22",
+                      "on-error-container": "#ffdad6",
+                      "surface-container": "#201f24",
+                      "on-secondary-container": "#003341",
+                      "surface-dim": "#141318",
+                      "tertiary-fixed": "#c4e7ff",
+                      "error-container": "#93000a",
+                      "inverse-surface": "#e5e1e8",
+                      "tertiary-fixed-dim": "#7cd0ff",
+                      "primary-fixed": "#ffddb4",
+                      "on-tertiary-fixed": "#001e2c",
+                      "on-tertiary-fixed-variant": "#004c69",
+                      "on-error": "#690005",
+                      "primary": "#ffc880",
+                      "secondary": "#5bd5fc",
+                      "on-primary-fixed-variant": "#633f00",
+                      "on-surface": "#e5e1e8",
+                      "primary-fixed-dim": "#ffb955",
+                      "status-error": "#FF4B4B",
+                      "surface-container": "#201f24",
+                      "on-secondary-fixed": "#001f28",
+                      "text-primary": "#EDEBF2",
+                      "inverse-on-surface": "#313035"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-max": "900px",
+                      "gutter": "1rem",
+                      "margin-mobile": "1.25rem",
+                      "stack-gap": "1.5rem"
+              },
+              "fontFamily": {
+                      "body-base": ["Inter"],
+                      "label-mono": ["JetBrains Mono"],
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "console-log": ["JetBrains Mono"],
+                      "body-sm": ["Inter"]
+              },
+              "fontSize": {
+                      "body-base": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "label-mono": ["12px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "console-log": ["13px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="font-body-base text-on-background selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation (Shell Implementation) -->
+<header class="w-full top-0 bg-background border-b border-border z-40 sticky">
+<div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">
+                JOBS AGENT
+            </div>
+<nav class="hidden md:flex gap-8 items-center font-body-base text-body-base">
+<a class="text-text-muted hover:text-text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-text-muted hover:text-text-primary transition-colors" href="#">History</a>
+<a class="text-text-muted hover:text-text-primary transition-colors" href="#">Settings</a>
+<button class="flex items-center gap-1 text-text-primary">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</nav>
+</div>
+</header>
+<main class="min-h-screen pb-32">
+<!-- Header Actions -->
+<div class="max-w-[640px] mx-auto px-4 pt-8 pb-4">
+<a class="inline-flex items-center gap-2 text-secondary font-label-mono text-label-mono uppercase tracking-widest hover:opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+                back to results
+            </a>
+</div>
+<!-- Document Viewer -->
+<div class="max-w-[640px] mx-auto px-4">
+<article class="bg-surface border border-border p-10 md:p-16 rounded-xl doc-canvas relative overflow-hidden">
+<!-- Signature Element: Tiny status indicator -->
+<div class="absolute top-0 right-0 p-4 font-label-mono text-[10px] text-text-muted uppercase tracking-tighter flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                    agent · prep_v4.2
+                </div>
+<header class="mb-12 border-b border-border pb-8">
+<h1 class="font-headline-lg text-headline-lg mb-2">Senior Product Designer</h1>
+<p class="font-body-base text-text-muted">Interview Preparation Strategy for <span class="text-text-primary font-semibold">TechFlow Systems</span></p>
+<div class="mt-4 inline-flex items-center gap-3 px-3 py-1 bg-surface-container-highest border border-border rounded-full">
+<span class="material-symbols-outlined text-secondary text-base" data-icon="verified">verified</span>
+<span class="font-label-mono text-label-mono text-secondary">92% Profile Fit Score</span>
+</div>
+</header>
+<div class="space-y-12">
+<!-- Section 1 -->
+<section>
+<h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-3">
+<span class="text-primary-container">01.</span> Likely questions
+                        </h2>
+<ul class="space-y-4">
+<li class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="arrow_right">arrow_right</span>
+<p class="text-on-surface">"How would you handle a conflict between high-fidelity visual standards and urgent engineering constraints during a sprint?"</p>
+</li>
+<li class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="arrow_right">arrow_right</span>
+<p class="text-on-surface">"Can you walk us through your process for validating design decisions in a data-scarce environment?"</p>
+</li>
+<li class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="arrow_right">arrow_right</span>
+<p class="text-on-surface">"TechFlow is migrating to a centralized Design System. What role have you played in large-scale system transitions?"</p>
+</li>
+</ul>
+</section>
+<!-- Section 2 -->
+<section>
+<h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-3">
+<span class="text-primary-container">02.</span> Talking points from your CV
+                        </h2>
+<ul class="space-y-4">
+<li class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="text-on-surface">Highlight the <span class="font-semibold text-secondary">24% increase in user retention</span> achieved at Nova Corp by streamlining the onboarding flow.</p>
+</li>
+<li class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="text-on-surface">Mention your experience leading <span class="font-semibold text-secondary">cross-functional workshops</span>; TechFlow values collaborative leadership.</p>
+</li>
+<li class="flex gap-4 items-start">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="text-on-surface">Connect your proficiency in <span class="font-semibold text-secondary">React-based prototyping</span> to their current tech stack for faster handoffs.</p>
+</li>
+</ul>
+</section>
+<!-- Section 3 -->
+<section>
+<h2 class="font-headline-md text-headline-md mb-6 flex items-center gap-3">
+<span class="text-primary-container">03.</span> Questions to ask them
+                        </h2>
+<div class="bg-surface-container-low border border-border p-6 rounded-xl">
+<ul class="space-y-4">
+<li class="text-text-muted italic border-l-2 border-primary-container pl-4">
+                                    "How does the product team prioritize accessibility in the roadmap vs. feature velocity?"
+                                </li>
+<li class="text-text-muted italic border-l-2 border-primary-container pl-4">
+                                    "What does the feedback loop between design and executive leadership look like for major pivot decisions?"
+                                </li>
+<li class="text-text-muted italic border-l-2 border-primary-container pl-4">
+                                    "Is there a specific design challenge the team is currently stuck on where a fresh perspective would help?"
+                                </li>
+</ul>
+</div>
+</section>
+</div>
+<!-- Live Console Signature at bottom of doc -->
+<div class="mt-16 bg-surface-container-highest border border-border p-4 font-console-log text-console-log">
+<div class="flex items-center justify-between mb-2 text-text-muted opacity-50">
+<span class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                            agent · analysis_complete
+                        </span>
+<span>0.42s</span>
+</div>
+<div class="text-on-surface">
+<span class="text-secondary">$</span> analyzing_job_description... OK<br/>
+<span class="text-secondary">$</span> cross_referencing_portfolio... OK<br/>
+<span class="text-secondary">$</span> predicting_interviewer_intent... OK<br/>
+<span class="text-secondary">$</span> generation_ready <span class="console-cursor"></span>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- Sticky Footer (Transactional/Action Shell) -->
+<footer class="fixed bottom-0 left-0 w-full bg-surface-container border-t border-border z-50">
+<div class="max-w-container-max mx-auto px- gutter h-20 flex justify-between items-center px-6">
+<div class="hidden md:flex flex-col">
+<span class="font-label-mono text-label-mono text-text-muted">FILENAME</span>
+<span class="font-body-sm text-body-sm text-on-surface">TechFlow_Prep_Doc.pdf</span>
+</div>
+<div class="flex items-center gap-6 w-full md:w-auto">
+<a class="text-text-muted hover:text-text-primary transition-colors font-label-mono text-label-mono flex items-center gap-2 py-3 px-4" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+                    Download DOCX
+                </a>
+<button class="flex-1 md:flex-none bg-primary text-on-primary font-label-mono text-label-mono font-bold uppercase tracking-widest px-8 py-3 rounded-full hover:bg-primary-container transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                    Download PDF
+                </button>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for back link
+        document.querySelector('a[data-icon="arrow_back"]')?.parentElement?.addEventListener('mouseenter', function() {
+            this.querySelector('.material-symbols-outlined').style.transform = 'translateX(-4px)';
+            this.querySelector('.material-symbols-outlined').style.transition = 'transform 0.2s ease';
+        });
+        document.querySelector('a[data-icon="arrow_back"]')?.parentElement?.addEventListener('mouseleave', function() {
+            this.querySelector('.material-symbols-outlined').style.transform = 'translateX(0)';
+        });
+    </script>
+</body></html>
